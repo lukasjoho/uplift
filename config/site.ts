@@ -6,8 +6,8 @@ export const siteConfig = {
   mainNav: [
     {
       type: "application",
-      title: "Lab",
-      href: "/",
+      title: "Dashboard",
+      href: "/dashboard",
     },
     {
       type: "website",

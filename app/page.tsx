@@ -1,11 +1,16 @@
 import Link from "next/link"
+import { getServerSession } from "next-auth"
 
 import { siteConfig } from "@/config/site"
+import { authOptions } from "@/lib/auth"
 import { Button, buttonVariants } from "@/components/ui/button"
 
-export default function IndexPage() {
+import LoginButton from "./components/LoginButton"
+
+export default async function IndexPage() {
+  const session = await getServerSession(authOptions)
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10 ">
       <div className="flex max-w-[980px] flex-col items-start gap-2">
         <h1 className="text-3xl font-extrabold leading-tight tracking-tighter sm:text-3xl md:text-5xl lg:text-6xl">
           <span className="bg-gradient-to-r from-green-400 via-green-500 to-green-400 bg-clip-text text-transparent">
@@ -22,7 +27,7 @@ export default function IndexPage() {
         </p>
       </div>
       <div className="flex gap-4">
-        <Button size="lg">Get Started</Button>
+        <LoginButton size="lg">Get Started</LoginButton>
         <Link
           target="_blank"
           rel="noreferrer"

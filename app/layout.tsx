@@ -1,5 +1,6 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
+import { Toaster } from "react-hot-toast"
 
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
@@ -40,12 +41,41 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
               <div className="flex-1 flex flex-col">{children}</div>
             </div>
             <TailwindIndicator />
+            <Toaster
+              toastOptions={{
+                // Define default options
+                duration: 5000,
+                success: {
+                  style: {
+                    background: "rgb(34 197 94)",
+                    color: "white",
+                  },
+                  iconTheme: {
+                    primary: "white",
+                    secondary: "rgb(34 197 94)",
+                  },
+                },
+                error: {
+                  style: {
+                    background: "rgb(239 68 68)",
+                    color: "white",
+                  },
+
+                  iconTheme: {
+                    primary: "white",
+                    secondary: "rgb(239 68 68)",
+                  },
+                },
+
+                // Default options for specific types
+              }}
+            />
           </ThemeProvider>
         </body>
       </html>

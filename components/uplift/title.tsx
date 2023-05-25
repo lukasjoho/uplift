@@ -12,13 +12,13 @@ type Sizes = {
 }
 
 const sizeMap: Sizes = {
-  t0: "text-4xl lg:text-6xl xl:text-7xl",
-  t1: "text-3xl md:text-4xl",
-  t2: "text-2xl md:text-3xl",
-  t3: "text-xl md:text-2xl",
-  t4: "text-lg md:text-xl",
-  t5: "text-base md:text-lg",
-  t6: "text-sm md:text-base",
+  t0: "text-4xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tighter",
+  t1: "text-3xl md:text-4xl font-extrabold leading-tight tracking-tighter",
+  t2: "text-2xl md:text-3xl font-semibold ",
+  t3: "text-xl md:text-2xl font-semibold ",
+  t4: "text-lg md:text-xl font-semibold ",
+  t5: "text-base md:text-lg font-semibold ",
+  t6: "text-sm md:text-base font-semibold ",
 }
 
 const Title: FC<TitleProps> = ({ children, className, size = "t3", as }) => {
@@ -46,7 +46,7 @@ const Title: FC<TitleProps> = ({ children, className, size = "t3", as }) => {
       SizeComponent = "h1"
   }
   return (
-    <SizeComponent className={`font-semibold ${sizeMap[size]} ${className}`}>
+    <SizeComponent className={`${sizeMap[size]} ${className}`}>
       {children}
     </SizeComponent>
   )
