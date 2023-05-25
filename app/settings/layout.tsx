@@ -6,17 +6,7 @@ import Title from "@/components/uplift/title"
 import Container from "../components/Container"
 import { Sidebar } from "./components/sidebar"
 
-interface SettingsLayoutProps {
-  title?: string
-  titleChild?: React.ReactNode
-  children: React.ReactNode
-}
-
-const SettingsLayout: FC<SettingsLayoutProps> = ({
-  title,
-  children,
-  titleChild,
-}) => {
+const SettingsLayout = ({ children }: any) => {
   return (
     <div>
       <Container>
