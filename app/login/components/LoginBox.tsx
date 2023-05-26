@@ -5,6 +5,7 @@ import { Icons } from "@/components/icons"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 import Container from "@/app/components/Container"
+import LoginButton from "@/app/components/LoginButton"
 
 const LoginBox = () => {
   return (
@@ -22,10 +23,11 @@ const LoginBox = () => {
                 by logging in with Google.
               </Text>
             </div>
-            <Button>
+
+            <LoginButton>
               <Icons.google />
               Login with Google
-            </Button>
+            </LoginButton>
           </div>
         </div>
       </div>

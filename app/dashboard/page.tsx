@@ -1,5 +1,8 @@
 import React from "react"
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
 
+import { authOptions } from "@/lib/auth"
 import {
   Card,
   CardContent,
@@ -11,49 +14,23 @@ import {
 import Text from "@/components/uplift/text"
 
 import Container from "../components/Container"
+import FeaturedHeader from "./components/FeaturedHeader"
+import ViewToggle from "./components/ViewToggle"
 
-const DashboardPage = () => {
+const DashboardPage = async () => {
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    redirect("/login?callbackPath=dashboard")
+  }
   return (
-    <Container>
-      <div className="grid grid-cols-3 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">
-              Summary
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-1">
-            <Text className="text-2xl font-bold">3 Running</Text>
-            <Text className="text-2xl font-bold">5 In Delivery</Text>
-            <Text className="text-2xl font-bold">4 Done</Text>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">
-              Summary
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-1">
-            <Text className="text-2xl font-bold">3 Running</Text>
-            <Text className="text-2xl font-bold">5 In Delivery</Text>
-            <Text className="text-2xl font-bold">4 Done</Text>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm text-muted-foreground">
-              Summary
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-1">
-            <Text className="text-2xl font-bold">3 Running</Text>
-            <Text className="text-2xl font-bold">5 In Delivery</Text>
-            <Text className="text-2xl font-bold">4 Done</Text>
-          </CardContent>
-        </Card>
-      </div>
-    </Container>
+    <div className="pt-8">
+      <Container>
+        <div className="space-y-8">
+          <FeaturedHeader />
+          <ViewToggle />
+        </div>
+      </Container>
+    </div>
   )
 }
 

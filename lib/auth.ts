@@ -1,3 +1,4 @@
+import { Session } from "inspector"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import GoogleProvider from "next-auth/providers/google"
 
@@ -11,5 +12,14 @@ export const authOptions = {
     }),
   ],
   adapter: PrismaAdapter(prisma),
-  secret: process.env.SECRET!,
+  secret: process.env.NEXTAUTH_SECRET!,
+  pages: {
+    signIn: "/login",
+    error: "/feedback",
+  },
+  // callbacks: {
+  //   async redirect({ url, baseUrl }: any) {
+  //     return "http://localhost:3000"
+  //   },
+  // },
 }

@@ -1,7 +1,9 @@
+"use client"
+
 import React from "react"
 import Image from "next/image"
 import { getServerSession } from "next-auth"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 
 import { authOptions } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
@@ -9,8 +11,8 @@ import { Button } from "@/components/ui/button"
 import { AvatarDropdown } from "./AvatarDropdown"
 import LoginButton from "./LoginButton"
 
-const AvatarOrLogin = async () => {
-  const session = await getServerSession(authOptions)
+const AvatarOrLogin = () => {
+  const { data: session } = useSession()
   if (!session) {
     return (
       <LoginButton size="sm" className="text-sm">

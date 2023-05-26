@@ -23,8 +23,10 @@ model User {
   sessions      Session[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  role          Role @relation(fields: [roleId], references: [id])
-  roleId        String @default("cli2c9l540002tjg3sq1oc0yv")
+  role          Role? @relation(fields: [roleId], references: [id])
+  roleId        String?
+  experiments   Experiment[]
+  organizations Organization[]
 }
 
 model Account {
@@ -96,4 +98,50 @@ model Invite {
   id       String    @id @default(cuid())
   email    String    @unique
   createdAt DateTime @default(now())
+}
+
+model Decision {
+  id          String   @id @default(cuid())
+  value       String   @unique
+  label       String   @unique
+  experiments Experiment[]
+}
+
+model Experiment {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  identifier  String   @unique
+  hypothesis  String?
+  decision     Decision? @relation(fields: [decisionId], references: [id])
+  decisionId   String?
+  status       Status? @relation(fields: [statusId], references: [id])
+  statusId     String?
+  country      Country? @relation(fields: [countryId], references: [id])
+  countryId    String?
+  startDate    DateTime?
+  endDate      DateTime?    
+  cover       String?  
+  dri         User? @relation(fields: [driId], references: [id]) 
+  driId       String?
+}
+
+model Status {
+  id          String   @id @default(cuid())
+  value       Boolean  @default(false)
+  label       String   @unique
+  experiments Experiment[]
+}
+
+model Country {
+  id          String   @id @default(cuid())
+  value       String   @unique
+  label       String   @unique
+  experiments Experiment[]
+}
+
+model Organization {
+  id          String   @id @default(cuid())
+  value      String   @unique
+  name        String   @unique
+  users       User[]
 }

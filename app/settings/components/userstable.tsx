@@ -91,7 +91,7 @@ export async function UsersTable() {
               </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>
-                <Badge>{user.role.label}</Badge>
+                <Badge>{user.role?.label}</Badge>
               </TableCell>
               <TableCell>{formatDate(user.createdAt.toISOString())}</TableCell>
             </TableRow>

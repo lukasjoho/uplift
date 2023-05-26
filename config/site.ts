@@ -17,7 +17,7 @@ export const siteConfig = {
     {
       type: "website",
       title: "Blog",
-      href: "/",
+      href: "/blog",
     },
   ],
   links: {
