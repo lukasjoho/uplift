@@ -1,6 +1,7 @@
 import React, { Suspense } from "react"
 
 import { prisma } from "@/lib/prisma"
+import PageHeader from "@/components/uplift/PageHeader"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 
@@ -12,12 +13,10 @@ const FeedbackPage = () => {
     <div className="pt-16">
       <Container>
         <div className="space-y-12">
-          <div className="flex flex-col items-center">
-            <Title size="t1">Feedback</Title>
-            <Text className="text-muted-foreground text-lg">
-              Vote on feedback or submit your own.
-            </Text>
-          </div>
+          <PageHeader
+            title="Feedback"
+            subtitle="Vote on feedback or submit your own."
+          />
           <Suspense fallback={<p>Loading weather...</p>}>
             {/* @ts-ignore */}
             <VoteGrid />

@@ -14,16 +14,7 @@ interface LoginButton {
 const LoginButton: FC<LoginButton> = ({ children, ...props }) => {
   const params = useSearchParams()
   return (
-    <Button
-      onClick={() =>
-        signIn("google", {
-          callbackUrl: `${process.env.NEXT_PUBLIC_HOST_URL}/${params.get(
-            "callbackPath"
-          )}`,
-        })
-      }
-      {...props}
-    >
+    <Button onClick={() => signIn("google")} {...props}>
       {children}
     </Button>
   )

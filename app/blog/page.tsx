@@ -1,10 +1,16 @@
 import React from "react"
 
+import PageHeader from "@/components/uplift/PageHeader"
+
 import BlogpostsGrid from "./components/BlogpostsGrid"
 
 const BlogPage = async () => {
   return (
-    <div className="flex flex-col gap-8 md:gap-16">
+    <div className="space-y-6 md:space-y-12 pt-6 md:pt-12">
+      <PageHeader
+        title="Blog"
+        subtitle="All things experimentation, AB testing and analytics."
+      />
       {/* @ts-ignore */}
       <BlogpostsGrid />
     </div>

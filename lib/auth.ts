@@ -17,9 +17,4 @@ export const authOptions = {
     signIn: "/login",
     error: "/feedback",
   },
-  // callbacks: {
-  //   async redirect({ url, baseUrl }: any) {
-  //     return "http://localhost:3000"
-  //   },
-  // },
 }
