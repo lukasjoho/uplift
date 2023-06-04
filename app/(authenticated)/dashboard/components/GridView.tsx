@@ -22,7 +22,14 @@ const GridItem = ({ experiment }: any) => {
   return (
     <div className="space-y-2">
       <div className="aspect-video relative rounded-lg overflow-hidden">
-        <Image src={cover} alt="i" fill={true} style={{ objectFit: "cover" }} />
+        {cover && (
+          <Image
+            src={cover}
+            alt="i"
+            fill={true}
+            style={{ objectFit: "cover" }}
+          />
+        )}
       </div>
       <Title size="t4">{name}</Title>
     </div>

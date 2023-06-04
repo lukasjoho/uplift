@@ -57,7 +57,7 @@ const TableView = async () => {
                   <TableCell>
                     <StatusCell status={status} />
                   </TableCell>
-                  <TableCell>{country.label}</TableCell>
+                  <TableCell>{country?.label}</TableCell>
                   <TableCell>{formatDate(startDate)}</TableCell>
                   <TableCell>{formatDate(endDate)}</TableCell>
                   <TableCell>{dri?.email}</TableCell>
@@ -95,6 +95,9 @@ interface DecisionCellProps {
   }
 }
 const DecisionCell: FC<DecisionCellProps> = ({ decision }) => {
+  if (!decision) {
+    return null
+  }
   const { label } = decision
   return (
     <div>
@@ -111,6 +114,9 @@ interface StatusCellProps {
   }
 }
 const StatusCell: FC<StatusCellProps> = ({ status }) => {
+  if (!status) {
+    return null
+  }
   const { label } = status
   return <div>{label}</div>
 }

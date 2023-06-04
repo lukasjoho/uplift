@@ -76,7 +76,7 @@ export async function UsersTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
+          {users.map((user: any) => (
             <TableRow key={user.id}>
               <TableCell className="font-medium flex gap-3">
                 <div className="rounded-full overflow-hidden w-6 aspect-square">

@@ -4,7 +4,7 @@ import { SessionProvider } from "next-auth/react"
 import { Toaster } from "react-hot-toast"
 
 import { siteConfig } from "@/config/site"
-import { fontSans } from "@/lib/fonts"
+import { fontMono, fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import AuthContext from "@/components/AuthContext"
 import { SiteHeader } from "@/components/site-header"

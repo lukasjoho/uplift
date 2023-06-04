@@ -123,6 +123,8 @@ model Experiment {
   cover       String?  
   dri         User? @relation(fields: [driId], references: [id]) 
   driId       String?
+  variants    Json?
+  pages       Page[]
 }
 
 model Status {
@@ -144,4 +146,11 @@ model Organization {
   value      String   @unique
   name        String   @unique
   users       User[]
+}
+
+model Page {
+  id String @id @default(cuid())
+  slug  String @unique
+  label String @unique
+  experiments Experiment[]
 }

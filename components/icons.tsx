@@ -83,6 +83,35 @@ export const Icons = {
       </defs>
     </svg>
   ),
+  logoRaw: (props: LucideProps) => (
+    <svg
+      width="480"
+      height="480"
+      viewBox="0 0 480 480"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M30 297.186L240.186 87L450.372 297.186M127.009 392.399L240.186 279.222L353.363 392.399"
+        stroke="url(#paint0_linear_150_367)"
+        stroke-width="71.8585"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_150_367"
+          x1="240.186"
+          y1="87"
+          x2="240.186"
+          y2="392.399"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#31DF6B" />
+          <stop offset="1" stop-color="#26BC58" />
+        </linearGradient>
+      </defs>
+    </svg>
+  ),
   gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path
@@ -124,6 +153,25 @@ export const Icons = {
       <circle cx="9" cy="7" r="4"></circle>
       <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
       <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </svg>
+  ),
+  pluscircle: (props: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      className="lucide lucide-plus-circle"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" x2="12" y1="8" y2="16"></line>
+      <line x1="8" x2="16" y1="12" y2="12"></line>
     </svg>
   ),
   google: (props: LucideProps) => (
