@@ -13,7 +13,7 @@ import VisualIntro from "./VisualIntro"
 export default async function IndexPage() {
   const session = await getServerSession(authOptions)
   return (
-    <div className="space-y-32">
+    <div className="space-y-32 pt-8 md:pt-16">
       <Hero />
       <VisualIntro />
     </div>

@@ -6,7 +6,7 @@ import BlogpostsGrid from "./components/BlogpostsGrid"
 
 const BlogPage = async () => {
   return (
-    <div className="space-y-6 md:space-y-12 pt-6 md:pt-12">
+    <div>
       <PageHeader
         title="Blog"
         subtitle="All things experimentation, AB testing and analytics."
