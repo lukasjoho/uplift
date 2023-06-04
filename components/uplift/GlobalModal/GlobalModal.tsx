@@ -19,12 +19,6 @@ export const ModalContext = React.createContext([
   },
 ])
 
-export const openModal = () => {
-  const [, setIsOpen] = useContext(ModalContext)
-  // @ts-ignore
-  setIsOpen(true)
-}
-
 const callAll =
   (...fns: any) =>
   (...args: any) =>
