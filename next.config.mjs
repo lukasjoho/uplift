@@ -19,6 +19,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.ctfassets.net",
       },
+      {
+        protocol: "https",
+        hostname: "uplift-images.s3.amazonaws.com",
+      },
     ],
   },
 }

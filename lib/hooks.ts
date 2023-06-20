@@ -2,6 +2,12 @@ import { useLayoutEffect, useState } from "react"
 
 import { isServer } from "./utils"
 
+export const useToggle = () => {
+  const [status, setStatus] = useState(false)
+  const toggleStatus = () => setStatus((prevStatus) => !prevStatus)
+  return { status, toggleStatus }
+}
+
 export function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/

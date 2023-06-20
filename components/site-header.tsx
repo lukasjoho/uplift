@@ -3,56 +3,33 @@ import Link from "next/link"
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
-import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
 import AvatarOrLogin from "@/app/components/AvatarOrLogin"
 import Container from "@/app/components/Container"
 
+import { AppNav } from "./AppNav"
+import { SiteNav } from "./SiteNav"
 import DropMenu from "./uplift/DropMenu"
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/50 backdrop-blur-lg">
+    <header className="sticky top-0 z-40 w-full border-b bg-background">
       <Container>
-        <div className="flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-          <MainNav items={siteConfig.mainNav} />
-          <div className="flex flex-1 items-center justify-end space-x-4">
-            <nav className="flex items-center gap-4">
-              <DropMenu />
-              {/* <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={buttonVariants({
-                  size: "sm",
-                  variant: "ghost",
-                })}
-              >
-                <Icons.gitHub className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
-              </div>
-            </Link>
-            <Link
-              href={siteConfig.links.twitter}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={buttonVariants({
-                  size: "sm",
-                  variant: "ghost",
-                })}
-              >
-                <Icons.twitter className="h-5 w-5 fill-current" />
-                <span className="sr-only">Twitter</span>
-              </div>
-            </Link> */}
-              {/* <ThemeToggle /> */}
-              {/* @ts-ignore */}
-              <AvatarOrLogin />
-            </nav>
+        <div className="flex gap-8 h-16 items-center sm:justify-between ">
+          <Link href="/" className="hidden items-center space-x-2 md:flex">
+            <Icons.logo className="h-6 w-6" />
+            <span className="hidden font-bold sm:inline-block">
+              {siteConfig.name}
+            </span>
+          </Link>
+          <nav className="flex grow justify-between">
+            <AppNav items={siteConfig.appNav} />
+            <SiteNav items={siteConfig.siteNav} />
+          </nav>
+          <div className="flex items-center gap-4">
+            <DropMenu />
+            {/* @ts-ignore */}
+            <AvatarOrLogin />
           </div>
         </div>
       </Container>

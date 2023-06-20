@@ -3,19 +3,21 @@ export type SiteConfig = typeof siteConfig
 export const siteConfig = {
   name: "Uplift",
   description: "Supercharge experimentation.",
-  mainNav: [
+  appNav: [
     {
-      type: "application",
-      title: "Dashboard",
+      type: "app",
+      title: "Workspace",
       href: "/dashboard",
     },
+  ],
+  siteNav: [
     {
-      type: "website",
+      type: "site",
       title: "Releases",
       href: "/releases/launched",
     },
     {
-      type: "website",
+      type: "site",
       title: "Blog",
       href: "/blog",
     },

@@ -2,61 +2,16 @@ import Image from "next/image"
 
 import { formatDate } from "@/lib/helpers"
 import { prisma } from "@/lib/prisma"
+import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-]
 
 export async function UsersTable() {
   let users = await prisma.user.findMany({
@@ -91,7 +46,7 @@ export async function UsersTable() {
               </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>
-                <Badge>{user.role?.label}</Badge>
+                <RoleBadge role={user.role} />
               </TableCell>
               <TableCell>{formatDate(user.createdAt.toISOString())}</TableCell>
             </TableRow>
@@ -99,5 +54,21 @@ export async function UsersTable() {
         </TableBody>
       </Table>
     </div>
+  )
+}
+
+const RoleBadge = ({ role }: any) => {
+  const { label, value } = role
+  return (
+    <Badge
+      className={cn(
+        "",
+        value == "owner" &&
+          "bg-gradient-to-b from-green-400 to-green-600 border-none"
+      )}
+      variant={value == "member" ? "outline" : undefined}
+    >
+      {label}
+    </Badge>
   )
 }

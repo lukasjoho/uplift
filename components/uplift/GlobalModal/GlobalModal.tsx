@@ -88,7 +88,7 @@ interface ModalOpenProps {
 }
 const ModalHeader: FC<ModalOpenProps> = ({ title, handleClose }) => {
   return (
-    <div className="flex justify-between items-start gap-4 relative">
+    <div className="flex justify-between items-start gap-4 py-6 sticky top-0 bg-background z-10">
       <Title size="t4">{title}</Title>
       <div
         onClick={() => handleClose()}

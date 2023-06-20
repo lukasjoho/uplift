@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -16,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import ToastBody from "@/components/uplift/ToastBody"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 
@@ -28,6 +29,8 @@ const formSchema = z.object({
 })
 
 export function InviteForm() {
+  const router = useRouter()
+
   const [isLoading, setIsLoading] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,6 +55,7 @@ export function InviteForm() {
           <Text>Email sent.</Text>
         </div>
       )
+      router.refresh()
     }
     if (res.status === 409) {
       if (res.statusText === "user-exists") {

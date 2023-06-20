@@ -1,5 +1,7 @@
 import React, { FC } from "react"
 
+import { cn } from "@/lib/utils"
+
 interface TitleProps {
   children: React.ReactNode | React.ReactNode[]
   className?: string
@@ -13,8 +15,8 @@ type Sizes = {
 
 const sizeMap: Sizes = {
   t0: "text-4xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tighter",
-  t1: "text-3xl md:text-4xl font-extrabold leading-tight tracking-tighter",
-  t2: "text-2xl md:text-3xl font-semibold ",
+  t1: "text-3xl md:text-5xl font-bold",
+  t2: "text-2xl md:text-4xl font-bold ",
   t3: "text-xl md:text-2xl font-semibold ",
   t4: "text-lg md:text-xl font-semibold ",
   t5: "text-base md:text-lg font-semibold ",
@@ -46,7 +48,7 @@ const Title: FC<TitleProps> = ({ children, className, size = "t3", as }) => {
       SizeComponent = "h1"
   }
   return (
-    <SizeComponent className={`${sizeMap[size]} ${className}`}>
+    <SizeComponent className={cn(`${sizeMap[size]}`, className)}>
       {children}
     </SizeComponent>
   )

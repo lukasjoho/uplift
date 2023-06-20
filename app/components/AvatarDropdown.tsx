@@ -6,6 +6,7 @@ import {
   CreditCard,
   Github,
   Keyboard,
+  LayoutDashboard,
   LifeBuoy,
   LogOut,
   Mail,
@@ -40,11 +41,22 @@ export function AvatarDropdown({ children }: any) {
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>
+          <Link href="/dashboard">
+            <DropdownMenuItem>
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Workspace</span>
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/settings">
+            <DropdownMenuItem>
+              <LifeBuoy className="mr-2 h-4 w-4" />
+              <span>Support</span>
+            </DropdownMenuItem>
+          </Link>
           <Link href="/settings">
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>

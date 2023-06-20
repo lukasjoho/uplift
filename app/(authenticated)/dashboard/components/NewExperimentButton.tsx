@@ -25,7 +25,9 @@ const NewExperimentButton = () => {
         </Button>
       </ModalOpenButton>
       <ModalContents title="Create Experiment" size={size}>
-        <CreateExperimentForm />
+        <>
+          <CreateExperimentForm />
+        </>
       </ModalContents>
     </Modal>
   )

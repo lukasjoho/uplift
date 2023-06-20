@@ -7,9 +7,12 @@ import { siteConfig } from "@/config/site"
 import { fontMono, fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import AuthContext from "@/components/AuthContext"
+import Header from "@/components/Header/Header"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import CommandModal from "@/components/uplift/CommandModal"
+import Footer from "@/components/uplift/Footer"
 
 export const metadata: Metadata = {
   title: {
@@ -30,9 +33,10 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode
+  params: any
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children, params }: RootLayoutProps) {
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -45,9 +49,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
             )}
           >
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-              <div className="relative flex min-h-screen flex-col">
-                <SiteHeader />
-                <div className="flex-1 flex flex-col">{children}</div>
+              <div className="relative flex min-h-screen flex-col ">
+                <Header />
+                <div className="flex-1 flex flex-col ">
+                  <CommandModal />
+                  {children}
+                </div>
+              </div>
+              <div className="pt-48">
+                <Footer />
               </div>
               <TailwindIndicator />
               <Toaster

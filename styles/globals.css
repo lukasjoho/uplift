@@ -79,3 +79,19 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+.string {
+  @apply text-green-500;
+}
+.number {
+  @apply text-fuchsia-500;
+}
+.boolean {
+  @apply text-blue-500;
+}
+.null {
+  color: magenta;
+}
+.key {
+  @apply text-foreground;
+}

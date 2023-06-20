@@ -2,6 +2,7 @@ import React from "react"
 
 import Container from "../../components/Container"
 import FeaturedHeader from "./components/FeaturedHeader"
+import Timeline from "./components/Timeline"
 import ViewToggle from "./components/ViewToggle"
 
 const DashboardPage = async () => {
@@ -10,6 +11,8 @@ const DashboardPage = async () => {
       <Container>
         <div className="space-y-8">
           <FeaturedHeader />
+          {/* @ts-ignore */}
+          <Timeline />
           <ViewToggle />
         </div>
       </Container>

@@ -19,14 +19,28 @@ model User {
   email         String?@unique
   emailVerified DateTime?
   image         String?
+  hasCompletedSignUp Boolean @default(false)
+  hasAcceptedInvite Boolean @default(false)
   accounts      Account[]
   sessions      Session[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   role          Role? @relation(fields: [roleId], references: [id])
-  roleId        String?
+  roleId        String? @default("cli3ldqwk000mtj4jsi9ichne")
   experiments   Experiment[]
-  organizations Organization[]
+  workspaces    Workspace[] @relation("UserWorkspace")
+  latestWorkspace Workspace? @relation("LatestUserWorkspace", fields: [latestWorkspaceId], references: [id])
+  latestWorkspaceId String?
+
+}
+
+model Workspace {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String   @unique
+  users       User[] @relation("UserWorkspace")
+  latestWorkspaceUsers User[] @relation("LatestUserWorkspace")
+  experiments Experiment[]
 }
 
 model Account {
@@ -125,6 +139,9 @@ model Experiment {
   driId       String?
   variants    Json?
   pages       Page[]
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
+  isEnabled Boolean @default(false)
 }
 
 model Status {
@@ -141,12 +158,7 @@ model Country {
   experiments Experiment[]
 }
 
-model Organization {
-  id          String   @id @default(cuid())
-  value      String   @unique
-  name        String   @unique
-  users       User[]
-}
+
 
 model Page {
   id String @id @default(cuid())

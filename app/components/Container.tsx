@@ -13,7 +13,7 @@ const Container: FC<ContainerProps> = ({ children, small = false }) => {
 
   return (
     <div
-      className={`mx-auto w-full px-4 md:px-8 xl:px-16 grow flex flex-col ${sizeClass}`}
+      className={`mx-auto w-full px-5 md:px-8 xl:px-16 grow flex flex-col ${sizeClass}`}
     >
       {children}
     </div>

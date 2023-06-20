@@ -37,7 +37,7 @@ const CenterModal: FC<CenterModalProps> = ({ children }) => {
       ref={ref}
       id="body"
       className={cn(
-        "hidden md:block gap-4 relative rounded-lg min-h-[200px] bg-background/80 backdrop-blur-2xl border p-6 shadow-lg sm:rounded-lg w-full max-w-3xl mx-auto place-self-center",
+        "hidden md:block gap-4 relative rounded-lg min-h-[200px] max-h-[700px] overflow-scroll bg-background/80 backdrop-blur-2xl border p-6 pt-0 shadow-lg sm:rounded-lg w-full max-w-3xl mx-auto place-self-center",
         isOverflowing && "top-16"
       )}
       variants={variants}

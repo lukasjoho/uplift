@@ -34,7 +34,7 @@ interface TabProps {
   href: string
 }
 
-const Tab: FC<TabProps> = ({ children, className, href }: any) => {
+export const Tab: FC<TabProps> = ({ children, className, href }: any) => {
   const pathname = usePathname()
 
   const isActive = pathname == href
@@ -60,13 +60,13 @@ const Tab: FC<TabProps> = ({ children, className, href }: any) => {
   )
 }
 
-const ActiveTab = () => {
+export const ActiveTab = () => {
   return (
     <div className="absolute w-full h-full top-0 left-0 bg-background rounded-sm" />
   )
 }
 
-const TabsList = ({ children }: any) => {
+export const TabsList = ({ children }: any) => {
   return (
     <div className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
       {children}

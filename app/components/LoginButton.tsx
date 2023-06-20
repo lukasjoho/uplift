@@ -12,9 +12,22 @@ interface LoginButton {
 }
 
 const LoginButton: FC<LoginButton> = ({ children, ...props }) => {
-  const params = useSearchParams()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "asdasd"
+  console.log("CALLBACK URL: ", callbackUrl)
+  const router = useRouter()
+  const callSignIn = async () => {
+    console.log("RES:", callbackUrl)
+    const res = await signIn("google", { callbackUrl: "/dashboard" })
+    // if (res?.error) {
+    //   console.log("RES: ", res.error)
+    // } else {
+    //   console.log("RES: ", "PUSH")
+    //   router.push("/dashboard")
+    // }
+  }
   return (
-    <Button onClick={() => signIn("google")} {...props}>
+    <Button onClick={() => callSignIn()} {...props}>
       {children}
     </Button>
   )
