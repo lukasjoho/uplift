@@ -44,10 +44,10 @@ export async function GET(request: Request) {
   }
 }
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "2mb", // Set desired value here
-    },
-  },
-}
+// export const config = {
+//   api: {
+//     bodyParser: {
+//       sizeLimit: "2mb", // Set desired value here
+//     },
+//   },
+// }

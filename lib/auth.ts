@@ -29,6 +29,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email
         session.user.image = token.image
         session.user.hasCompletedSignUp = token.hasCompletedSignUp
+        session.user.workspaces = token.workspaces
       }
 
       return session
@@ -37,6 +38,9 @@ export const authOptions: NextAuthOptions = {
       const dbUser = await prisma.user.findFirst({
         where: {
           email: token.email,
+        },
+        include: {
+          workspaces: true,
         },
       })
       console.log("jwt callback", { dbUser })
@@ -49,6 +53,7 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         image: dbUser.image,
+        workspaces: dbUser.workspaces,
         hasCompletedSignUp: dbUser.hasCompletedSignUp,
       }
     },
