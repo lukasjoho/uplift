@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarIcon, Loader2 } from "lucide-react"
+import { CalendarClock, CalendarIcon, Loader2 } from "lucide-react"
 import { useForm, useWatch } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import * as z from "zod"
@@ -181,7 +181,7 @@ const CreateExperimentForm = ({ handleClose }: any) => {
                           ) : (
                             <span>Pick a date</span>
                           )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -228,7 +228,7 @@ const CreateExperimentForm = ({ handleClose }: any) => {
                           ) : (
                             <span>Pick a date</span>
                           )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
