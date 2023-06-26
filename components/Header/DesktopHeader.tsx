@@ -20,6 +20,7 @@ export function DesktopHeader() {
           </span>
         </Link>
         <nav className="flex grow justify-between">
+          {/* @ts-ignore */}
           <AppNav items={siteConfig.appNav} />
           <SiteNav items={siteConfig.siteNav} />
         </nav>

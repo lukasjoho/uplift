@@ -17,11 +17,11 @@ import NewWorkspace from "./NewWorkspace"
 const Workspaces = () => {
   return (
     <div className="flex flex-col gap-4 items-center">
-      <Title size="t1">Workspaces</Title>
+      <Title size="t1">Spaces</Title>
       <Card>
         <CardHeader>
           <CardDescription className="text-base">
-            You have access to the following workspaces.
+            You have access to the following spaces.
           </CardDescription>
         </CardHeader>
         <CardContent>

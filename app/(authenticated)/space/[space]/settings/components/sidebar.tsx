@@ -17,7 +17,9 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Sidebar({ title, items, ...rest }: SidebarProps) {
   return (
-    <div className={cn("pr-8 space-y-4 py-6", rest.className)}>
+    <div
+      className={cn("pr-8 space-y-4 py-6 sticky top-[105px]", rest.className)}
+    >
       <div className="px-0 py-2">
         <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
           {title}

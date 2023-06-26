@@ -102,7 +102,6 @@ const ModalHeader: FC<ModalOpenProps> = ({ title, handleClose }) => {
 }
 
 const ModalBody = ({ children, size }: any) => {
-  const [setIsOpen] = React.useContext(ModalContext)
   return (
     <>
       <div className="hidden md:grid">

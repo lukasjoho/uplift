@@ -15,7 +15,6 @@ export function useWindowSize() {
     width: undefined,
     height: undefined,
   })
-  console.log(windowSize)
 
   useLayoutEffect(() => {
     // Handler to call on window resize

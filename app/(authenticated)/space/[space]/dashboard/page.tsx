@@ -1,6 +1,7 @@
 import React from "react"
 
-import Container from "../../components/Container"
+import Container from "@/app/components/Container"
+
 import FeaturedHeader from "./components/FeaturedHeader"
 import Timeline from "./components/Timeline"
 import ViewToggle from "./components/ViewToggle"

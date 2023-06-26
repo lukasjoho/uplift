@@ -29,7 +29,8 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email
         session.user.image = token.image
         session.user.hasCompletedSignUp = token.hasCompletedSignUp
-        session.user.workspaces = token.workspaces
+        session.user.spaces = token.spaces
+        session.user.currentSpace = token.currentSpace
       }
 
       return session
@@ -40,10 +41,10 @@ export const authOptions: NextAuthOptions = {
           email: token.email,
         },
         include: {
-          workspaces: true,
+          spaces: true,
+          currentSpace: true,
         },
       })
-      console.log("jwt callback", { dbUser })
       if (!dbUser) {
         token.id = user!.id
         return token
@@ -53,7 +54,8 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         image: dbUser.image,
-        workspaces: dbUser.workspaces,
+        spaces: dbUser.spaces,
+        currentSpace: dbUser.currentSpace,
         hasCompletedSignUp: dbUser.hasCompletedSignUp,
       }
     },

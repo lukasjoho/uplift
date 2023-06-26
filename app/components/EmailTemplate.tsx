@@ -6,19 +6,11 @@ import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 
 interface EmailTemplateProps {
-  firstName: string
+  id: string
 }
 
-export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
-  firstName,
-}) => (
-  <div>
-    <h1>Welcome, {firstName}!</h1>
-  </div>
-)
-
 export const EmailTemplateInvite: React.FC<Readonly<EmailTemplateProps>> = ({
-  firstName,
+  id,
 }) => (
   <Tailwind>
     <Html>

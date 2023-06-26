@@ -44,7 +44,7 @@ export function AvatarDropdown({ children }: any) {
           <Link href="/dashboard">
             <DropdownMenuItem>
               <LayoutDashboard className="mr-2 h-4 w-4" />
-              <span>Workspace</span>
+              <span>Space</span>
             </DropdownMenuItem>
           </Link>
           <Link href="/settings">

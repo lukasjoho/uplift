@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import LoginBox from "./components/LoginBox"
 
 export default function LoginPage() {

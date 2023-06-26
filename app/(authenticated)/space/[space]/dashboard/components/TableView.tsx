@@ -17,7 +17,6 @@ import Title from "@/components/uplift/title"
 const TableView = async () => {
   const res = await fetch(`http://localhost:3000/api/experiments`)
   const experiments = await res.json()
-  console.log(experiments)
   return (
     <div>
       <div className="border rounded-lg">

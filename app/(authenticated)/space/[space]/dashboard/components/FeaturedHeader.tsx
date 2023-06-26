@@ -50,7 +50,6 @@ export default FeaturedHeader
 const Report = async () => {
   const res = await fetch(`http://localhost:3000/api/experiments`)
   const experiments = await res.json()
-  console.log("EXPERIMENTS", experiments)
   let stagesCount: any = {
     active: 0,
     completed: 0,
@@ -70,7 +69,6 @@ const Report = async () => {
     return ""
   }
   experiments.forEach((experiment: any) => {
-    console.log("STAGEDATE", experiment.startDate)
     const stage: any = determineStage(experiment)
     stagesCount[stage]++
   })

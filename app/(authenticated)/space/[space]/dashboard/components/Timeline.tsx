@@ -104,7 +104,6 @@ const TimelineHeader = () => {
   const today = new Date()
 
   function getDatesBetween(startDate: any, endDate: any) {
-    console.log("STARTDATE: ", startDate)
     const dates = []
     let currentDate = new Date(startDate)
     let rightDate = new Date(endDate)

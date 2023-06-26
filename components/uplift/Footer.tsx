@@ -32,7 +32,7 @@ const Footer = () => {
             </div>
             <div className="col-span-1">
               <List title="Product">
-                <ListItem href="/">Workspace</ListItem>
+                <ListItem href="/">Dashboard</ListItem>
                 <ListItem href="/developers">Developers</ListItem>
               </List>
             </div>
@@ -44,7 +44,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="w-full border-t py-4 md:py-8 text-muted-foreground">
+        <div className="w-full border-t py-2 md:py-4 text-muted-foreground">
           © 2023 uplift.io
         </div>
       </Container>

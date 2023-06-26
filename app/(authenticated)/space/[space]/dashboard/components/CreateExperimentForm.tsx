@@ -29,7 +29,7 @@ import { Textarea } from "@/components/ui/textarea"
 import ToastBody from "@/components/uplift/ToastBody"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
-import FileInput from "@/app/(authenticated)/dashboard/components/CreateExperimentForm/FileInput"
+import FileInput from "@/app/(authenticated)/space/[space]/dashboard/components/CreateExperimentForm/FileInput"
 
 import ImageUploadField from "./ImageUploadField"
 import VariantSelect from "./VariantSelect"
@@ -92,7 +92,6 @@ const CreateExperimentForm = ({ handleClose }: any) => {
   }, [watchedValue])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
     const res = await createExperiment(values)
     const data = await res.json()
     if (res.ok) {

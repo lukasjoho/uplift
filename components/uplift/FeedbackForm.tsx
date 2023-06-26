@@ -29,7 +29,6 @@ const FeedbackForm = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     await createFeedback(values)
-    console.log(values)
   }
   return (
     <div className="flex flex-col gap-3">

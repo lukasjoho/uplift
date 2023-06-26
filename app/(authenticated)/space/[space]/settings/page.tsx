@@ -7,25 +7,18 @@ import SubMenuLayout from "@/components/SubMenuLayout"
 import { Icons } from "@/components/icons"
 import Title from "@/components/uplift/title"
 
-import Container from "../components/Container"
+import Container from "../../../../components/Container"
 import { InviteForm } from "./components/InviteForm"
 import InvitesTable from "./components/InvitesTable"
+import SettingsLayout from "./components/SettingsLayout"
 import { Sidebar } from "./components/sidebar"
 import { UsersTable } from "./components/userstable"
 
 export const revalidate = 0
 
-const items = [
-  {
-    label: "Users",
-    href: "/settings/users",
-    icon: <Icons.users className="mr-1 h-5 w-5" />,
-  },
-]
-
 const UsersPage = async () => {
   return (
-    <SubMenuLayout pageTitle="Settings" menuTitle="Users" menuItems={items}>
+    <SettingsLayout pageTitle="Users">
       <div className="flex flex-col gap-6">
         <Tabs defaultValue="members" className="w-full space-y-4">
           <div className="flex justify-between ">
@@ -50,7 +43,7 @@ const UsersPage = async () => {
           </TabsContent>
         </Tabs>
       </div>
-    </SubMenuLayout>
+    </SettingsLayout>
   )
 }
 

@@ -8,7 +8,6 @@ import { fontMono, fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import AuthContext from "@/components/AuthContext"
 import Header from "@/components/Header/Header"
-import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import CommandModal from "@/components/uplift/CommandModal"
@@ -56,9 +55,7 @@ export default function RootLayout({ children, params }: RootLayoutProps) {
                   {children}
                 </div>
               </div>
-              <div className="pt-48">
-                <Footer />
-              </div>
+              <Footer />
               <TailwindIndicator />
               <Toaster
                 toastOptions={{

@@ -6,14 +6,14 @@ export async function POST(request: Request) {
   try {
     const json = await request.json()
 
-    const workspace = await prisma.workspace.create({
+    const space = await prisma.space.create({
       data: json,
     })
 
     let json_response = {
       status: "success",
       data: {
-        workspace,
+        space,
       },
     }
     return new NextResponse(JSON.stringify(json_response), {
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     if (error.code === "P2002") {
       let error_response = {
         status: "failed",
-        message: "A workspace with this name already exists",
+        message: "A space with this name already exists",
       }
       return new NextResponse(JSON.stringify(error_response), {
         status: 409,
@@ -41,3 +41,5 @@ export async function POST(request: Request) {
     })
   }
 }
+
+export async function GET() {}

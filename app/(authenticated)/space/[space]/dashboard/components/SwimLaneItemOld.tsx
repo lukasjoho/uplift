@@ -38,12 +38,8 @@ const SwimLaneItem: FC<SwimLaneItemProps> = ({
   const stage = determineStage(experiment)
   let size = useWindowSize()
   const [position, setPosition] = useState(0)
-  function onPanStart(event: any, info: any) {
-    console.log(info.point.x, info.point.y)
-  }
-  function onPanEnd(event: any, info: any) {
-    console.log(info.point.x, info.point.y)
-  }
+  function onPanStart(event: any, info: any) {}
+  function onPanEnd(event: any, info: any) {}
   const handleDragStart = (e: any) => {
     // Store the initial position of the dragged element
     const initialPosition = e.clientX

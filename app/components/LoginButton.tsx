@@ -14,15 +14,13 @@ interface LoginButton {
 const LoginButton: FC<LoginButton> = ({ children, ...props }) => {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get("callbackUrl") || "asdasd"
-  console.log("CALLBACK URL: ", callbackUrl)
   const router = useRouter()
   const callSignIn = async () => {
-    console.log("RES:", callbackUrl)
-    const res = await signIn("google", { callbackUrl: "/dashboard" })
+    // const res = await signIn("google", { callbackUrl: callbackUrl })
+    const res = await signIn("google")
+
     // if (res?.error) {
-    //   console.log("RES: ", res.error)
     // } else {
-    //   console.log("RES: ", "PUSH")
     //   router.push("/dashboard")
     // }
   }

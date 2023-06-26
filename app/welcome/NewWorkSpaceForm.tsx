@@ -53,7 +53,6 @@ const NewWorkspaceForm = ({ handleClose }: any) => {
   }, [watchedValue])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
     // const res = await createExperiment(values)
     // const data = await res.json()
     // if (res.ok) {
@@ -62,7 +61,6 @@ const NewWorkspaceForm = ({ handleClose }: any) => {
     // } else {
     //   toast.error(<ToastBody title="Failed" message={data.message} />)
     // }
-
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     // await createFeedback(values)

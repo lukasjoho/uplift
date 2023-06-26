@@ -26,20 +26,20 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   role          Role? @relation(fields: [roleId], references: [id])
-  roleId        String? @default("cli3ldqwk000mtj4jsi9ichne")
+  roleId        String? @default("clj93h7pu0000tj2ca7m85nov")
   experiments   Experiment[]
-  workspaces    Workspace[] @relation("UserWorkspace")
-  latestWorkspace Workspace? @relation("LatestUserWorkspace", fields: [latestWorkspaceId], references: [id])
-  latestWorkspaceId String?
+  spaces    Space[] @relation("UserSpace")
+  currentSpace Space? @relation("CurrentUserSpace", fields: [currentSpaceId], references: [id])
+  currentSpaceId String?
 
 }
 
-model Workspace {
+model Space {
   id          String   @id @default(cuid())
   slug        String   @unique
   name        String   @unique
-  users       User[] @relation("UserWorkspace")
-  latestWorkspaceUsers User[] @relation("LatestUserWorkspace")
+  users       User[] @relation("UserSpace")
+  currentSpaceUsers User[] @relation("CurrentUserSpace")
   experiments Experiment[]
 }
 
@@ -139,8 +139,8 @@ model Experiment {
   driId       String?
   variants    Json?
   pages       Page[]
-  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
-  workspaceId String?
+  space   Space? @relation(fields: [spaceId], references: [id])
+  spaceId String?
   isEnabled Boolean @default(false)
 }
 

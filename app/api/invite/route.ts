@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
 import { prisma } from "@/lib/prisma"
-import {
-  EmailTemplate,
-  EmailTemplateInvite,
-} from "@/app/components/EmailTemplate"
+import { EmailTemplateInvite } from "@/app/components/EmailTemplate"
 
 const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY)
 
@@ -47,7 +44,7 @@ export async function POST(req: Request) {
         from: "onboarding@resend.dev",
         to: body.email,
         subject: "Your are invited to Uplift",
-        react: EmailTemplateInvite({ firstName: "John" }),
+        react: EmailTemplateInvite({ id: invite.id }),
       })
     } catch (error) {
       return new Response("Invite failed", {

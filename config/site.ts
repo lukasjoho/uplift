@@ -6,7 +6,7 @@ export const siteConfig = {
   appNav: [
     {
       type: "app",
-      title: "Workspace",
+      title: "Space",
       href: "/dashboard",
     },
   ],

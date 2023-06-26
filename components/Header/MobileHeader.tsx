@@ -83,7 +83,7 @@ const MobileMenu = () => {
               <nav>
                 <ul>
                   <div className="py-4">
-                    <MobileMenuItem label="Workspace" />
+                    <MobileMenuItem label="Space" />
                   </div>
                   <Separator />
                   <div className="py-4">
