@@ -18,7 +18,7 @@ export async function AppNav({ items }: AppNavProps) {
 
   return (
     <Link
-      href="/"
+      href={session?.user.currentSpace.slug || "/"}
       className={cn(
         "flex gap-1 items-center text-lg font-semibold transition duration-150 text-muted-foreground hover:text-foreground sm:text-sm"
       )}
