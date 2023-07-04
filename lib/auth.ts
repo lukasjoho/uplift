@@ -32,9 +32,23 @@ export const authOptions: NextAuthOptions = {
         session.user.spaces = token.spaces
         session.user.currentSpace = token.currentSpace
       }
+      const connectedUser = await prisma.user.update({
+        where: {
+          email: token.email,
+        },
+        data: {
+          spaces: {
+            connect: {
+              id: "cljddlzin0000w3tz7bfcl41d",
+            },
+          },
+        },
+      })
+      console.log("CONNECTED USER", connectedUser)
 
       return session
     },
+
     async jwt({ token, user }: any) {
       const dbUser = await prisma.user.findFirst({
         where: {

@@ -1,6 +1,9 @@
 import React from "react"
 import { X } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge"
+import { Icons } from "@/components/icons"
+
 const values = ["a", "b", "c", "d"]
 const colors = ["#7B61FF", "#EA7E00", "#E82A4A", "#0086EA"]
 
@@ -45,7 +48,6 @@ const VariantSelect = ({ setValue, name, watch, required }: any) => {
     <div className="flex flex-col gap-2">
       <label htmlFor={name} className="font-medium">
         Variants
-        {required && "*"}
       </label>
       <div className="flex gap-2 justify-start">
         {variants.map((v: any, idx: any) => {
@@ -54,11 +56,8 @@ const VariantSelect = ({ setValue, name, watch, required }: any) => {
           )
         })}
         {variants.length < 4 && (
-          <button
-            onClick={handleAdd}
-            className="py-1 px-2 rounded-sm border-2 border-pearl text-sm"
-          >
-            Add
+          <button onClick={handleAdd}>
+            <Icons.pluscircle className="transition duration-100 opacity-50 hover:opacity-100" />
           </button>
         )}
       </div>
@@ -73,12 +72,12 @@ const VariantTag = ({ variant, idx, handleRemove }: any) => {
   return (
     <div className="relative">
       <TagRaw id={id} weight={weight} idx={idx} />
-      {idx > 1 && (
+      {idx > 0 && (
         <div
-          className="bg-pearl aspect-square rounded-full absolute -top-2 -right-2 w-5 shrink-0 flex items-center justify-center  cursor-pointer z-10 text-sm"
+          className="bg-pearl aspect-square rounded-full absolute -top-2 -right-2 w-5 shrink-0 flex items-center justify-center  cursor-pointer z-10 text-sm border bg-background"
           onClick={() => handleRemove()}
         >
-          <X color="black" height="12px" />
+          <X height="12px" />
         </div>
       )}
     </div>
@@ -87,15 +86,9 @@ const VariantTag = ({ variant, idx, handleRemove }: any) => {
 
 const TagRaw = ({ id, weight, idx }: any) => {
   return (
-    <button
-      className="py-1 px-1 rounded-sm text-xs whitespace-nowrap bg-snow"
-      // style={{
-      //   backgroundColor: `${colors[idx]}50`,
-      //   borderColor: `${colors[idx]}50`,
-      // }}
-    >
+    <Badge className="whitespace-nowrap cursor-default w-20 text-center flex justify-center">
       {String(id)[0].toUpperCase()} {weight * 100}%
-    </button>
+    </Badge>
   )
 }
 

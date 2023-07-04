@@ -10,15 +10,15 @@ import TableView from "./TableView"
 const ViewToggle = () => {
   return (
     <div>
-      <Tabs defaultValue="quickview">
+      <Tabs defaultValue="promode">
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <Title>Experiments</Title>
             <div className="flex items-center gap-2">
               <NewExperimentButton />
               <TabsList>
-                <TabsTrigger value="quickview">Quick View</TabsTrigger>
                 <TabsTrigger value="promode">Pro Mode</TabsTrigger>
+                <TabsTrigger value="quickview">Quick View</TabsTrigger>
               </TabsList>
             </div>
           </div>

@@ -19,3 +19,26 @@ export async function createVote(feedbackId: any) {
   })
   revalidatePath("/feedback")
 }
+
+export async function assignCurrentSpace(user: any, spaceId: any) {
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      currentSpace: {
+        connect: {
+          id: spaceId,
+        },
+      },
+    },
+    include: {
+      currentSpace: true,
+    },
+  })
+  return updatedUser
+}
+
+export async function revalidateServerPath(path: string) {
+  revalidatePath(path)
+}

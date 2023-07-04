@@ -1,13 +1,29 @@
 import { NextResponse } from "next/server"
+import { getServerSession } from "next-auth"
 
+import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 export async function POST(request: Request) {
+  const session = await getServerSession(authOptions)
+  const userEmail = session?.user?.email
   try {
     const json = await request.json()
 
     const space = await prisma.space.create({
-      data: json,
+      data: {
+        ...json,
+        users: {
+          connect: {
+            email: userEmail,
+          },
+        },
+        currentSpaceUsers: {
+          connect: {
+            email: userEmail,
+          },
+        },
+      },
     })
 
     let json_response = {

@@ -1,10 +1,26 @@
-import React, { FC } from "react"
-import { FileBarChart2, FolderSymlink, View } from "lucide-react"
+"use client"
 
+import React, { FC, useEffect } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import {
+  Activity,
+  DollarSign,
+  FileBarChart2,
+  FolderSymlink,
+  Headphones,
+  TerminalSquare,
+  TerminalSquareIcon,
+  View,
+} from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { Icons } from "@/components/icons"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 
-import Container from "../components/Container"
+import Container from "../../components/Container"
+import Wheel from "./Wheel"
 
 const featuresList = [
   {
@@ -29,10 +45,21 @@ const featuresList = [
 
 const Features = () => {
   return (
-    <section>
+    <section className="overflow-hidden">
       <Container>
-        <div className="space-y-12">
-          <Title size="t2">Stay aligned across stakeholders.</Title>
+        <div className="grid grid-cols-6 gap-24">
+          <div className="col-span-6 xl:col-span-3 flex items-center justify-center xl:justify-start">
+            <Title size="t0" className="text-center xl:text-left">
+              100% alignment <br />
+              for all your <br />
+              stakeholders.
+            </Title>
+          </div>
+          <div className="col-span-6 lg:col-start-2 lg:col-span-4 xl:col-span-3">
+            <Wheel />
+          </div>
+        </div>
+        <div className="space-y-12 mt-24">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {featuresList.map((feature, index) => (
               <FeatureItem feature={feature} key={index} />

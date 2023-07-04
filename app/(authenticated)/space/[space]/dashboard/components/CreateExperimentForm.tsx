@@ -1,8 +1,18 @@
 "use client"
 
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
+import { revalidatePath } from "next/cache"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarClock, CalendarIcon, Loader2 } from "lucide-react"
+import {
+  CalendarClock,
+  CalendarIcon,
+  FilePieChart,
+  Globe,
+  LineChart,
+  Loader2,
+  PenTool,
+  Sparkles,
+} from "lucide-react"
 import { useForm, useWatch } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import * as z from "zod"
@@ -26,10 +36,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Textarea } from "@/components/ui/textarea"
+import { ComboboxDemo } from "@/components/uplift/ComboBox"
+import ComboInput from "@/components/uplift/ComboInput"
+import { ModalContext } from "@/components/uplift/GlobalModal/GlobalModal"
 import ToastBody from "@/components/uplift/ToastBody"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 import FileInput from "@/app/(authenticated)/space/[space]/dashboard/components/CreateExperimentForm/FileInput"
+import { revalidateServerPath } from "@/app/actions"
 
 import ImageUploadField from "./ImageUploadField"
 import VariantSelect from "./VariantSelect"
@@ -50,18 +64,35 @@ const objectSchema = z.object({
   weight: z.number(),
 })
 
-const formSchema = z.object({
+const urlSchema = z.string().refine((value) => {
+  if (!value) return true // Allow empty value
+  try {
+    new URL(value)
+    return true
+  } catch (error) {
+    return false
+  }
+}, "Must be a valid URL")
+
+const formSchema: any = z.object({
   name: z.string().nonempty("Title required."),
   identifier: z.string().max(1000).nonempty("Identifier required."),
   hypothesis: z.string(),
   startDate: z.string(),
   endDate: z.string(),
   variants: z.array(objectSchema),
+  deployUrl: urlSchema,
+  dashboardUrl: urlSchema,
+  evaluationUrl: urlSchema,
+  designUrl: urlSchema,
   cover: z.string(),
 })
 
 const CreateExperimentForm = ({ handleClose }: any) => {
+  const [, setIsOpen]: any = useContext(ModalContext)
+
   const form = useForm<z.infer<typeof formSchema>>({
+    mode: "onBlur",
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -70,6 +101,10 @@ const CreateExperimentForm = ({ handleClose }: any) => {
       startDate: new Date().toISOString(),
       endDate: "",
       cover: "",
+      dashboardUrl: "",
+      deployUrl: "",
+      evaluationUrl: "",
+      designUrl: "",
       variants: [
         {
           id: "a",
@@ -79,6 +114,8 @@ const CreateExperimentForm = ({ handleClose }: any) => {
       ],
     },
   })
+
+  const formValues = form.getValues()
 
   form.register("cover", {
     validate: (value) => value !== "" || "Cover image required",
@@ -92,11 +129,17 @@ const CreateExperimentForm = ({ handleClose }: any) => {
   }, [watchedValue])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    Object.keys(values).forEach((key) => {
+      if (values[key] === "") {
+        values[key] = null
+      }
+    })
     const res = await createExperiment(values)
     const data = await res.json()
     if (res.ok) {
       toast.success(<ToastBody title="Success" message="Experiment created." />)
-      handleClose()
+      revalidateServerPath("space/finn/dashboard")
+      setIsOpen(false)
     } else {
       toast.error(<ToastBody title="Failed" message={data.message} />)
     }
@@ -143,7 +186,13 @@ const CreateExperimentForm = ({ handleClose }: any) => {
               name="hypothesis"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Hypothesis</FormLabel>
+                  <div className="w-full flex justify-between items-center">
+                    <FormLabel>Hypothesis</FormLabel>
+                    <button className="rounded-sm border border-amber-600 text-xs font-semibold px-2 py-1 flex gap-1 items-center">
+                      <Sparkles className="w-4 h-4" />
+                      Refine
+                    </button>
+                  </div>
                   <FormControl>
                     <Textarea
                       className="bg-background min-w-[240px]"
@@ -189,12 +238,15 @@ const CreateExperimentForm = ({ handleClose }: any) => {
                         mode="single"
                         selected={new Date(field.value)}
                         onSelect={(date) => {
+                          console.log("SEL DATE", date)
                           const dateString = date?.toISOString()
+                          console.log("SEL STR DATE", dateString)
+
                           field.onChange(dateString)
                         }}
-                        disabled={(date) =>
-                          date < new Date() || date < new Date("1900-01-01")
-                        }
+                        // disabled={(date) =>
+                        //   date < new Date() || date < new Date("1900-01-01")
+                        // }
                         initialFocus
                       />
                     </PopoverContent>
@@ -270,6 +322,83 @@ const CreateExperimentForm = ({ handleClose }: any) => {
               )}
             />
           </div>
+          <div className="col-span-6">
+            <FormField
+              control={form.control}
+              name="deployUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Deploy URL</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter deploy URL"
+                      {...field}
+                      icon={<Globe className="w-4 h-4" />}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="col-span-6">
+            <FormField
+              control={form.control}
+              name="designUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Design URL</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter design URL"
+                      {...field}
+                      icon={<PenTool className="w-4 h-4" />}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="col-span-6">
+            <FormField
+              control={form.control}
+              name="dashboardUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dashboard</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter dashboard URL"
+                      {...field}
+                      icon={<LineChart className="w-4 h-4" />}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="col-span-6">
+            <FormField
+              control={form.control}
+              name="evaluationUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Evaluation</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter evaluation URL"
+                      {...field}
+                      icon={<FilePieChart className="w-4 h-4" />}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <div className="col-span-12">
             <VariantSelect
               name="variants"
@@ -280,20 +409,23 @@ const CreateExperimentForm = ({ handleClose }: any) => {
           </div>
         </div>
 
-        <Button
-          className="m-0"
-          onClick={form.handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Creating...
-            </>
-          ) : (
-            "Create"
-          )}
-        </Button>
+        <div className="mt-12">
+          <Button
+            className="m-0"
+            onClick={form.handleSubmit(onSubmit)}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Creating...
+              </>
+            ) : (
+              "Create"
+            )}
+          </Button>
+        </div>
+        <pre>{JSON.stringify(formValues, null, 2)}</pre>
       </Form>
     </>
   )

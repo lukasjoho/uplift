@@ -8,7 +8,9 @@ interface ApiResponseProps {
 
 /* @ts-expect-error Server Component */
 const ApiResponse: FC<ApiResponseProps> = async ({ loading = false }) => {
-  const res = await fetch(`http://localhost:3000/api/experiments/flags`)
+  const res = await fetch(`http://localhost:3000/api/experiments/flags`, {
+    cache: "no-store",
+  })
   const flags = await res.json()
   return (
     <div className="border rounded-xl bg-muted">

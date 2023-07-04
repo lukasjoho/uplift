@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils"
 
 interface CenterModalProps {
   children: React.ReactNode
+  maxSize: "xl" | "lg" | "md" | "sm"
 }
 
-const CenterModal: FC<CenterModalProps> = ({ children }) => {
+const CenterModal: FC<CenterModalProps> = ({ children, maxSize = "md" }) => {
   const ref: any = useRef(null)
   const variants = {
     hidden: {
@@ -37,8 +38,12 @@ const CenterModal: FC<CenterModalProps> = ({ children }) => {
       ref={ref}
       id="body"
       className={cn(
-        "hidden md:block gap-4 relative rounded-lg min-h-[200px] max-h-[700px] overflow-scroll bg-background/80 backdrop-blur-2xl border p-6 pt-0 shadow-lg sm:rounded-lg w-full max-w-3xl mx-auto place-self-center",
-        isOverflowing && "top-16"
+        "hidden md:block gap-4 relative rounded-lg min-h-[200px] max-h-[700px] overflow-scroll bg-background/80 backdrop-blur-2xl border p-6 pt-0 shadow-lg sm:rounded-lg w-full  mx-auto place-self-center",
+        isOverflowing && "top-16",
+        maxSize == "xl" && "max-w-5xl",
+        maxSize == "lg" && "max-w-4xl",
+        maxSize == "md" && "max-w-3xl",
+        maxSize == "sm" && "max-w-[500px]"
       )}
       variants={variants}
       initial="hidden"
@@ -50,9 +55,6 @@ const CenterModal: FC<CenterModalProps> = ({ children }) => {
         event.preventDefault()
       }}
     >
-      {/* <pre>Element Height: {JSON.stringify(ref?.current?.clientHeight)}</pre>
-      <pre>Window Height: {JSON.stringify(size.height)}</pre>
-      <pre>{JSON.stringify(isOverflowing)}</pre> */}
       {children}
     </motion.div>
   )

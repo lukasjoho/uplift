@@ -1,4 +1,5 @@
 export function formatDate(dateString: string) {
+  console.log("INPUT DATE: ", dateString)
   const date = new Date(dateString)
   const year = date.getFullYear()
   const month = date.toLocaleString("default", { month: "short" })
@@ -11,6 +12,17 @@ export const convertToLowercase = (str: string) => {
     return ""
   }
   return str.toLowerCase().replace(/[\s-]+/g, "")
+}
+
+export const convertToSlug = (str: string) => {
+  if (!str) {
+    return ""
+  }
+
+  return str
+    .toLowerCase() // Convert to lowercase
+    .replace(/[^a-zA-Z0-9\s]/g, "") // Remove non-alphanumeric characters
+    .replace(/\s+/g, "-") // Replace spaces with dashes ("-")
 }
 
 export const getDateDiffInDays = (start: string, end: string) => {

@@ -83,11 +83,40 @@ export const Icons = {
       </defs>
     </svg>
   ),
+  logoSingle: (props: LucideProps) => (
+    <svg
+      width="499"
+      height="499"
+      viewBox="0 0 499 499"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M61 301.499L249.5 113L437.999 301.5M148 386.888L249.499 285.388L350.999 386.888"
+        stroke="url(#paint0_linear_215_529)"
+        stroke-width="64.4443"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_215_529"
+          x1="249.5"
+          y1="113"
+          x2="249.499"
+          y2="386.888"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#31DF6B" />
+          <stop offset="1" stop-color="#26BC58" />
+        </linearGradient>
+      </defs>
+    </svg>
+  ),
   logoRaw: (props: LucideProps) => (
     <svg
-      width="480"
-      height="480"
-      viewBox="0 0 480 480"
+      width="174"
+      height="174"
+      viewBox="0 0 174 174"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}

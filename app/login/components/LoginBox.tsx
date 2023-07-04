@@ -12,16 +12,15 @@ const LoginBox = () => {
     <Container small>
       <div className="flex border bg-background shadow-xl rounded-xl">
         <div className="aspect-square bg-primary-background grid place-items-center w-1/2">
-          <img src="/uplift-icon.svg" alt="" />
+          <Icons.logoSingle className="w-1/2 h-auto" />
         </div>
         <div className="aspect-square grid place-items-center w-1/2">
           <div className="flex flex-col items-center gap-5">
             <div className="flex flex-col items-center gap-3">
-              <Title size="t1">Sign In</Title>
-              <Text className="text-center">
-                Login or register here, <br />
-                by logging in with Google.
-              </Text>
+              <Title size="t1" className="text-center">
+                Sign In <br />
+                to Uplift
+              </Title>
             </div>
 
             <LoginButton>

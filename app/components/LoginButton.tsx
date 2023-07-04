@@ -17,7 +17,7 @@ const LoginButton: FC<LoginButton> = ({ children, ...props }) => {
   const router = useRouter()
   const callSignIn = async () => {
     // const res = await signIn("google", { callbackUrl: callbackUrl })
-    const res = await signIn("google")
+    const res = await signIn("google", { callbackUrl: "/space" })
 
     // if (res?.error) {
     // } else {

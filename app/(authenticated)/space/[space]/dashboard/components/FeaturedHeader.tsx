@@ -5,7 +5,7 @@ import Text from "@/components/uplift/text"
 
 const FeaturedHeader = () => {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 gap-4">
       <Card>
         <CardHeader>
           <CardTitle className="text-sm text-muted-foreground">
@@ -17,30 +17,6 @@ const FeaturedHeader = () => {
           <Report />
         </CardContent>
       </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm text-muted-foreground">
-            Summary
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-1">
-          <Text className="text-2xl font-bold">3 Running</Text>
-          <Text className="text-2xl font-bold">5 In Delivery</Text>
-          <Text className="text-2xl font-bold">4 Done</Text>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm text-muted-foreground">
-            Summary
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-1">
-          <Text className="text-2xl font-bold">3 Running</Text>
-          <Text className="text-2xl font-bold">5 In Delivery</Text>
-          <Text className="text-2xl font-bold">4 Done</Text>
-        </CardContent>
-      </Card>
     </div>
   )
 }
@@ -48,7 +24,9 @@ const FeaturedHeader = () => {
 export default FeaturedHeader
 
 const Report = async () => {
-  const res = await fetch(`http://localhost:3000/api/experiments`)
+  const res = await fetch(`http://localhost:3000/api/experiments`, {
+    cache: "no-store",
+  })
   const experiments = await res.json()
   let stagesCount: any = {
     active: 0,
@@ -74,14 +52,14 @@ const Report = async () => {
   })
 
   return (
-    <div className="space-y-1">
-      <Text className="text-2xl font-bold text-green-500">
+    <div className="flex gap-8">
+      <Text className="text-2xl font-bold text-green-500 whitespace-nowrap">
         {stagesCount.active} Active
       </Text>
-      <Text className="text-2xl font-bold text-blue-500">
+      <Text className="text-2xl font-bold text-blue-500 whitespace-nowrap">
         {stagesCount.upcoming} Upcoming
       </Text>
-      <Text className="text-2xl font-bold text-purple-500">
+      <Text className="text-2xl font-bold text-purple-500 whitespace-nowrap">
         {stagesCount.completed} Completed
       </Text>
     </div>

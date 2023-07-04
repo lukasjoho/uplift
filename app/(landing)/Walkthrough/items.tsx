@@ -1,4 +1,19 @@
-import { ArrowBigRight, CalendarPlus, Code2, LineChart } from "lucide-react"
+import {
+  ArrowBigRight,
+  Boxes,
+  Braces,
+  CalendarPlus,
+  CheckCircle2,
+  Code2,
+  FileBarChart2,
+  FileClock,
+  GanttChartSquare,
+  KanbanSquareDashed,
+  LineChart,
+  Slack,
+  Webhook,
+  Workflow,
+} from "lucide-react"
 
 export const items = [
   {
@@ -16,6 +31,12 @@ export const items = [
     imageUrl: "/image-plan.jpg",
     color: "from-purple-600 to-purple-400",
     solidColor: "purple-500",
+    textColor: "text-purple-500",
+    highlights: [
+      { icon: <KanbanSquareDashed />, label: "Templates" },
+      { icon: <GanttChartSquare />, label: "Roadmap" },
+      { icon: <CheckCircle2 />, label: "Status Updates" },
+    ],
     icon: <CalendarPlus className="w-4 md:w-6" />,
   },
   {
@@ -26,9 +47,15 @@ export const items = [
       "Each experiment mappes one to one to a feature flag, named after the experiment in consistent and predictable ways. Set an experiment's status to on, set the right date range and get your experiments exposed within a clean endpoint for your client applications to consume as feature flags.",
     cta: "Start Deploying",
     imageUrl: "/image-flags.jpg",
-    color: "from-orange-600 to-orange-400",
-    solidColor: "orange-500",
+    color: "from-amber-600 to-amber-400",
+    solidColor: "amber-500",
+    textColor: "text-amber-500",
     icon: <Code2 className="w-4 md:w-6" />,
+    highlights: [
+      { icon: <Braces />, label: "Feature Flag API" },
+      { icon: <Boxes />, label: "Javascript SDK" },
+      { icon: <Webhook />, label: "Webhooks" },
+    ],
   },
   {
     step: 3,
@@ -40,7 +67,12 @@ export const items = [
     imageUrl: "/image-analyze.jpg",
     color: "from-blue-600 to-blue-400",
     solidColor: "blue-500",
+    textColor: "text-blue-500",
     icon: <LineChart className="w-4 md:w-6" />,
+    highlights: [
+      { icon: <FileClock />, label: "Analyses Summaries" },
+      { icon: <Workflow />, label: "Tool Integration" },
+    ],
   },
   {
     step: 4,
@@ -52,6 +84,11 @@ export const items = [
     imageUrl: "/image-act.jpg",
     color: "from-green-600 to-green-400",
     solidColor: "green-500",
+    textColor: "text-green-500",
     icon: <ArrowBigRight className="w-4 md:w-6" />,
+    highlights: [
+      { icon: <FileBarChart2 />, label: "Report Sharing" },
+      { icon: <Slack />, label: "Slack Integration" },
+    ],
   },
 ]

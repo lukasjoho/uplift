@@ -95,3 +95,77 @@
 .key {
   @apply text-foreground;
 }
+
+.animate-wheel {
+  animation: spin 30s linear infinite;
+}
+
+.animate-counter {
+  animation: spin-counter 30s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-counter {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.realtime:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background: #26bc5815;
+  width: 100%;
+  height: 100%;
+  transform: rotate(90deg);
+  border-radius: 100%;
+  border: 1px solid #26bc5840;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+    transform: rotate(45deg) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) scale(2);
+  }
+}
+
+.animate-pulse-uplift {
+  animation-name: pulseUplift;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes pulseUplift {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}

@@ -6,7 +6,7 @@ import Container from "@/app/components/Container"
 const WalkthroughHeader = () => {
   return (
     <Container>
-      <Title size="t1">
+      <Title size="t0">
         Your end-to-end <br />
         experiment companion
       </Title>

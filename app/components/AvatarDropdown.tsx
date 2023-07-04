@@ -41,7 +41,7 @@ export function AvatarDropdown({ children }: any) {
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>
-          <Link href="/dashboard">
+          <Link href="/space">
             <DropdownMenuItem>
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Space</span>

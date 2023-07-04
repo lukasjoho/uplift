@@ -38,20 +38,30 @@ function ModalDismissButton({ children: child }: any) {
   })
 }
 
-function ModalOpenButton({ children: child }: any) {
+function ModalOpenButton({ children: child, blockModalTrigger }: any) {
   const [, setIsOpen]: any = React.useContext(ModalContext)
 
   return React.cloneElement(child, {
     //@ts-ignore/
     onClick: callAll(() => {
       // You now have access to `window`
+      if (blockModalTrigger) {
+        return
+      }
       //@ts-ignore
       setIsOpen(true)
     }, child.props.onClick),
   })
 }
 
-function ModalContents({ title, children: child, size, ...props }: any) {
+interface ModalContentsProps {
+  title?: string
+  children: React.ReactNode[]
+  maxSize?: string
+  [x: string]: any
+}
+
+function ModalContents({ title, children: child, maxSize, ...props }: any) {
   const [isOpen, setIsOpen] = React.useContext(ModalContext)
   useFixBackground(isOpen)
 
@@ -64,6 +74,8 @@ function ModalContents({ title, children: child, size, ...props }: any) {
     e.preventDefault()
   }
 
+  const size = useWindowSize()
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -71,7 +83,7 @@ function ModalContents({ title, children: child, size, ...props }: any) {
           <ModalOverlay
             handleModalBackgroundClick={handleModalBackgroundClick}
           />
-          <ModalBody size={size}>
+          <ModalBody size={size} maxSize={maxSize}>
             <ModalHeader title={title} handleClose={handleClose} />
             {React.cloneElement(child, {
               handleClose: handleClose,
@@ -101,11 +113,19 @@ const ModalHeader: FC<ModalOpenProps> = ({ title, handleClose }) => {
   )
 }
 
-const ModalBody = ({ children, size }: any) => {
+const ModalFooter = ({ children }: any) => {
+  return (
+    <div className="flex justify-between items-center gap-4 py-6 absolute bottom-0 bg-background z-10">
+      {children}
+    </div>
+  )
+}
+
+const ModalBody = ({ children, size, maxSize }: any) => {
   return (
     <>
       <div className="hidden md:grid">
-        <CenterModal>{children}</CenterModal>
+        <CenterModal maxSize={maxSize}>{children}</CenterModal>
       </div>
       <div className="md:hidden w-full">
         <BottomSheet size={size}>{children}</BottomSheet>

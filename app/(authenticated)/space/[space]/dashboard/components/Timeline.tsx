@@ -1,20 +1,77 @@
 import React from "react"
 
-import {
-  getDateDiffInDays,
-  getDayOfWeek,
-  getMonthName,
-  isToday,
-} from "@/lib/helpers"
+import { getDateDiffInDays, getMonthName, isToday } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
-import { Separator } from "@/components/ui/separator"
+import {
+  Modal,
+  ModalContents,
+  ModalOpenButton,
+} from "@/components/uplift/GlobalModal/GlobalModal"
 import Text from "@/components/uplift/text"
-import Title from "@/components/uplift/title"
 
 import Resizable from "./Resizable"
-import SwimLaneItem from "./SwimLaneItem"
+import TimelineClientWrapper from "./Timeline/TimelineClientWrapper"
 import TodayIndicator from "./TodayIndicator"
 import WeekSeparator from "./WeekSeparator"
+
+function haveDateOverlap(exp1: any, exp2: any) {
+  const startDate1 = new Date(exp1.startDate)
+  const endDate1 = new Date(exp1.endDate)
+  const startDate2 = new Date(exp2.startDate)
+  const endDate2 = new Date(exp2.endDate)
+
+  return (
+    (startDate1 <= endDate2 && startDate2 <= endDate1) ||
+    (startDate2 <= endDate1 && startDate1 <= endDate2)
+  )
+}
+
+// Function to check if one experiment's date range is enclosed within another experiment's date range
+function isDateEnclosed(exp1: any, exp2: any) {
+  const startDate1 = new Date(exp1.startDate)
+  const endDate1 = new Date(exp1.endDate)
+  const startDate2 = new Date(exp2.startDate)
+  const endDate2 = new Date(exp2.endDate)
+
+  return (
+    (startDate1 <= startDate2 && endDate1 >= endDate2) ||
+    (startDate2 <= startDate1 && endDate2 >= endDate1)
+  )
+}
+
+function clusterExperiments(experiments: any) {
+  const clusteredExperiments = []
+
+  for (const experiment of experiments) {
+    let addedToCluster = false
+
+    for (const cluster of clusteredExperiments) {
+      let canAddToCluster = true
+
+      for (const exp of cluster) {
+        if (
+          haveDateOverlap(experiment, exp) ||
+          isDateEnclosed(experiment, exp)
+        ) {
+          canAddToCluster = false
+          break
+        }
+      }
+
+      if (canAddToCluster) {
+        cluster.push(experiment)
+        addedToCluster = true
+        break
+      }
+    }
+
+    if (!addedToCluster) {
+      clusteredExperiments.push([experiment])
+    }
+  }
+
+  return clusteredExperiments
+}
 
 const createSwimlanes = (experiments: any) => {
   let swimlanes: any = []
@@ -36,15 +93,40 @@ const createSwimlanes = (experiments: any) => {
   return swimlanes
 }
 
+// function isOverlap(experiments: any, newExperiment: any) {
+//   for (const experiment of experiments) {
+//     if (
+//       (experiment.startDate.slice(0, 10) <=
+//         newExperiment.endDate?.slice(0, 10) &&
+//         experiment.endDate?.slice(0, 10) >=
+//           newExperiment.startDate.slice(0, 10)) ||
+//       (newExperiment.startDate.slice(0, 10) <=
+//         experiment.endDate?.slice(0, 10) &&
+//         newExperiment.endDate?.slice(0, 10) >=
+//           experiment.startDate.slice(0, 10)) ||
+//       newExperiment.startDate.slice(0, 10) == experiment.startDate.slice(0, 10)
+//     ) {
+//       return true // Overlapping date ranges
+//     }
+//   }
+
+//   return false // No overlap
+// }
+
 function isOverlap(experiments: any, newExperiment: any) {
+  const newStartDate = new Date(newExperiment.startDate)
+  const newEndDate = new Date(newExperiment.endDate)
+
   for (const experiment of experiments) {
+    const startDate = new Date(experiment.startDate)
+    const endDate = new Date(experiment.endDate)
+
     if (
-      (experiment.startDate <= newExperiment.endDate &&
-        experiment.endDate >= newExperiment.startDate) ||
-      (newExperiment.startDate <= experiment.endDate &&
-        newExperiment.endDate >= experiment.startDate)
+      (newStartDate >= startDate && newStartDate <= endDate) ||
+      (newEndDate >= startDate && newEndDate <= endDate) ||
+      (newStartDate <= startDate && newEndDate >= endDate)
     ) {
-      return true // Overlapping date ranges
+      return true // Overlap found
     }
   }
 
@@ -54,47 +136,52 @@ function isOverlap(experiments: any, newExperiment: any) {
 const Timeline = async () => {
   const res = await fetch(`http://localhost:3000/api/experiments`)
   const experiments = await res.json()
-  const swimlanes = createSwimlanes(experiments)
+  const swimlanes = clusterExperiments(experiments)
 
   return (
-    <div className="overflow-scroll w-full border rounded-xl">
-      {/* <Resizable /> */}
-      <div>
-        <TimelineHeader />
-      </div>
-      <div id="swimlanes">
-        <div className="flex flex-col gap-2 pb-2 pt-2">
-          {swimlanes.map((swimlane: any) => {
-            return (
-              <div className="relative h-10 w-full">
-                {swimlane.map((experiment: any) => {
-                  const startDate: any = new Date(experiment.startDate)
-                  const endDate: any = new Date(experiment.endDate)
-                  const days = getDateDiffInDays(startDate, endDate)
-                  const daysFromStart = getDateDiffInDays(
-                    "2023-05-04T16:21:12.256Z",
-                    startDate
-                  )
-                  return (
-                    // <SwimLaneItem
-                    //   days={days}
-                    //   daysFromStart={daysFromStart}
-                    //   experiment={experiment}
-                    // />
-                    <Resizable
-                      days={days}
-                      daysFromStart={daysFromStart}
-                      experiment={experiment}
-                    />
-                  )
-                })}
-              </div>
-            )
-          })}
+    <>
+      <TimelineClientWrapper>
+        {/* <Resizable /> */}
+        <div className="inline-block">
+          <div>
+            <TimelineHeader />
+          </div>
+          <div id="swimlanes">
+            <div className="flex flex-col gap-2 pb-2 pt-2 border-t">
+              {swimlanes.map((swimlane: any) => {
+                return (
+                  <div className="relative h-10 w-full">
+                    {swimlane.map((experiment: any) => {
+                      const startDate: any = new Date(experiment.startDate)
+                      const endDate: any = new Date(experiment.endDate)
+                      const days = getDateDiffInDays(startDate, endDate)
+                      const daysFromStart = getDateDiffInDays(
+                        "2023-01-01T16:21:12.256Z",
+                        startDate
+                      )
+                      return (
+                        // <SwimLaneItem
+                        //   days={days}
+                        //   daysFromStart={daysFromStart}
+                        //   experiment={experiment}
+                        // />
+
+                        <Resizable
+                          days={days}
+                          daysFromStart={daysFromStart}
+                          experiment={experiment}
+                        />
+                      )
+                    })}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
-      </div>
-      {/* <pre>{JSON.stringify(swimlanes, null, 2)}</pre> */}
-    </div>
+        {/* <pre>{JSON.stringify(swimlanes, null, 2)}</pre> */}
+      </TimelineClientWrapper>
+    </>
   )
 }
 
@@ -114,7 +201,7 @@ const TimelineHeader = () => {
     return dates
   }
   const dates = getDatesBetween(
-    "2023-05-04T16:21:12.256Z",
+    "2023-01-01T16:21:12.256Z",
     "2024-06-04T12:34:56.789Z"
   )
 
@@ -138,11 +225,11 @@ const TimelineHeader = () => {
   const months = groupDatesByMonth(dates)
 
   return (
-    <div className="flex gap-[9px] border-b">
+    <div className="flex gap-[9px]  ">
       {months.map((month: any) => {
         return (
           <div>
-            <div className="py-1 relative pl-2">
+            <div className="py-1 relative pl-2 ">
               <div className="absolute w-[1px] h-full bg-border -translate-x-[5px] top-0 left-0"></div>
               <div
                 className="absolute bottom-0 bg-border h-[1px] left-0"
@@ -152,7 +239,7 @@ const TimelineHeader = () => {
                 {getMonthName(month[0])}
               </Text>
             </div>
-            <div className="flex gap-[9px] items-end">
+            <div className="flex gap-[9px] items-end ">
               {month.map((date: any) => {
                 const day = date.getDay()
                 let shouldShowWeekday = false

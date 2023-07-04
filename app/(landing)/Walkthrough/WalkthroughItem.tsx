@@ -21,6 +21,7 @@ type WalkthroughItem = {
   color: string
   step: number
   solidColor: string
+  highlights?: any[]
 }
 
 interface WalkthroughItemProps {
@@ -78,6 +79,14 @@ const WalkthroughItem: FC<WalkthroughItemProps> = ({
                 <ItemImage imageUrl={imageUrl} />
               </div>
               <Text>{description}</Text>
+            </div>
+            <div className="grid grid-cols-3 gap-6">
+              {item.highlights?.map((highlight: any, index) => (
+                <div className="flex gap-2 items-center">
+                  <div className={`text-${solidColor}`}>{highlight.icon}</div>
+                  <Text className="whitespace-nowrap">{highlight.label}</Text>
+                </div>
+              ))}
             </div>
             <Button>{cta}</Button>
           </div>

@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  url = env("DB_URL") // uses connection pooling
   // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
   // shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
 }
@@ -34,6 +34,10 @@ model User {
 
 }
 
+enum ViewMode {
+  PROMODE
+  QUICKVIEW
+}
 model Space {
   id          String   @id @default(cuid())
   slug        String   @unique
@@ -41,6 +45,8 @@ model Space {
   users       User[] @relation("UserSpace")
   currentSpaceUsers User[] @relation("CurrentUserSpace")
   experiments Experiment[]
+  iconUrl     String?
+  viewMode ViewMode @default(PROMODE)
 }
 
 model Account {
@@ -142,7 +148,17 @@ model Experiment {
   space   Space? @relation(fields: [spaceId], references: [id])
   spaceId String?
   isEnabled Boolean @default(false)
+  deployUrl String?
+  dashboardUrl String?
+  evaluationUrl String?
+  designUrl String?
+  primaryMetric String?
+  improvement Decimal?
+  statSig Decimal?
+  
 }
+
+
 
 model Status {
   id          String   @id @default(cuid())

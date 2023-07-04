@@ -1,15 +1,12 @@
-"use client"
+import React from "react"
 
-import React, { useState } from "react"
-
-import Title from "@/components/uplift/title"
+import WelcomeMessage from "./WelcomeMessage"
 
 const WelcomePage = () => {
-  const [stage, setStage] = useState("welcome")
+  // @ts-ignore
   return (
-    <div className="w-screen grow flex justify-center items-center">
-      {/* {stage == "welcome" && <WelcomeMessage />} */}
-      <Title>Welcome to Uplift</Title>
+    <div className="grow flex justify-center items-center">
+      <WelcomeMessage />
     </div>
   )
 }

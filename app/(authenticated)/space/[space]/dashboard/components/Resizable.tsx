@@ -1,9 +1,15 @@
 "use client"
 
 import React, { FC, useCallback, useState } from "react"
+import { is } from "date-fns/locale"
 import { motion, useMotionValue } from "framer-motion"
 
 import { cn } from "@/lib/utils"
+import {
+  Modal,
+  ModalContents,
+  ModalOpenButton,
+} from "@/components/uplift/GlobalModal/GlobalModal"
 
 import { TIMELINE_SETTINGS } from "./Timeline/constants"
 
@@ -87,77 +93,98 @@ const Resizable: FC<SwimLaneItemProps> = ({
   }
 
   const stage = determineStage(experiment)
-
+  const handleClick = (e: any) => {
+    console.log("clicked")
+    if (isDragging) {
+      e.preventDefault()
+      e.stopPropagation()
+      return
+    }
+  }
   return (
     <div className="flex">
-      <motion.div
-        className={cn(
-          "font-semibold bg-gradient-to-tr rounded-md text-white absolute border h-10 flex items-center px-3 cursor-pointer justify-between overflow-hidden whitespace-nowrap",
-          stage === "active" &&
-            "from-green-500/50 to-green-400/50 border-green-500",
-          stage === "completed" &&
-            "from-blue-500/50 to-blue-400/50 border-blue-500",
-          stage === "upcoming" &&
-            " from-yellow-500/50 to-yellow-400/50 border-yellow-500",
-          isDragging && "border-dashed"
-        )}
-        style={{
-          width: mWidth,
-          left: mPos,
-        }}
-        onDoubleClick={() => {
-          mWidth.set(900)
-        }}
-        drag="x"
-        dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
-        dragElastic={0}
-        dragMomentum={false}
-        onDrag={(event, info) => handleDrag(event, info, "center")}
-        onDragEnd={(event, info) => {
-          // const newConvertedPos = convertToNearestMultiple(
-          //   mPos.get() + info.delta.x
-          // )
-          // mPos.set(newConvertedPos)
-          snapPosition(mPos.get() + info.delta.x)
-          setIsDragging(false)
-        }}
-        onDragStart={() => {
-          setIsDragging(true)
-        }}
-      >
-        {experiment.name}
-        <Handle
-          position="left"
-          onDrag={(event: any, info: any) => handleDrag(event, info, "left")}
-          onDragEnd={(event: any, info: any) => {
-            const newConvertedWidth = convertToNearestMultiple(
-              mWidth.get() + info.delta.x
-            )
-            mWidth.set(newConvertedWidth)
-            snapPosition(mPos.get() + info.delta.x)
-            setIsDragging(false)
-          }}
-          onDragStart={() => {
-            setIsDragging(true)
-          }}
-          isDragging={isDragging}
-        />
-        <Handle
-          position="right"
-          onDrag={(event: any, info: any) => handleDrag(event, info, "right")}
-          onDragEnd={(event: any, info: any) => {
-            const newConvertedWidth = convertToNearestMultiple(
-              mWidth.get() + info.delta.x
-            )
-            mWidth.set(newConvertedWidth)
-            setIsDragging(false)
-          }}
-          onDragStart={() => {
-            setIsDragging(true)
-          }}
-          isDragging={isDragging}
-        />
-      </motion.div>
+      <Modal>
+        <ModalOpenButton blockModalTrigger={isDragging}>
+          <motion.div
+            className={cn(
+              "font-semibold bg-gradient-to-r rounded-md text-white absolute border h-10 flex items-center px-3 cursor-pointer justify-between overflow-hidden whitespace-nowrap",
+              stage === "active" &&
+                "from-green-500/50 to-green-400/50 border-green-500",
+              stage === "completed" &&
+                "from-neutral-700/50 to-neutral-600/50 border-neutral-500",
+              stage === "upcoming" &&
+                " from-purple-600/50 to-purple-500/50 border-dashed border-purple-400",
+              isDragging
+            )}
+            style={{
+              width: mWidth,
+              left: mPos,
+            }}
+            onDoubleClick={() => {
+              mWidth.set(900)
+            }}
+            drag="x"
+            dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
+            dragElastic={0}
+            dragMomentum={false}
+            onClick={handleClick}
+            onDrag={(event, info) => handleDrag(event, info, "center")}
+            onDragEnd={(event, info) => {
+              // const newConvertedPos = convertToNearestMultiple(
+              //   mPos.get() + info.delta.x
+              // )
+              // mPos.set(newConvertedPos)
+              snapPosition(mPos.get() + info.delta.x)
+              setIsDragging(false)
+            }}
+            onDragStart={() => {
+              setIsDragging(true)
+            }}
+          >
+            {experiment.name}
+            <Handle
+              position="left"
+              onDrag={(event: any, info: any) =>
+                handleDrag(event, info, "left")
+              }
+              onDragEnd={(event: any, info: any) => {
+                const newConvertedWidth = convertToNearestMultiple(
+                  mWidth.get() + info.delta.x
+                )
+                mWidth.set(newConvertedWidth)
+                snapPosition(mPos.get() + info.delta.x)
+                setTimeout(() => {
+                  setIsDragging(false)
+                }, 150)
+              }}
+              onDragStart={() => {
+                setIsDragging(true)
+              }}
+              isDragging={isDragging}
+            />
+            <Handle
+              position="right"
+              onDrag={(event: any, info: any) =>
+                handleDrag(event, info, "right")
+              }
+              onDragEnd={(event: any, info: any) => {
+                const newConvertedWidth = convertToNearestMultiple(
+                  mWidth.get() + info.delta.x
+                )
+                mWidth.set(newConvertedWidth)
+                setIsDragging(false)
+              }}
+              onDragStart={() => {
+                setIsDragging(true)
+              }}
+              isDragging={isDragging}
+            />
+          </motion.div>
+        </ModalOpenButton>
+        <ModalContents title={experiment.name} maxSize="xl">
+          <div>New Modal</div>
+        </ModalContents>
+      </Modal>
     </div>
   )
 }
