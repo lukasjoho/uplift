@@ -144,6 +144,7 @@ const Resizable: FC<SwimLaneItemProps> = ({
             {experiment.name}
             <Handle
               position="left"
+              stage={stage}
               onDrag={(event: any, info: any) =>
                 handleDrag(event, info, "left")
               }
@@ -164,6 +165,7 @@ const Resizable: FC<SwimLaneItemProps> = ({
             />
             <Handle
               position="right"
+              stage={stage}
               onDrag={(event: any, info: any) =>
                 handleDrag(event, info, "right")
               }
@@ -197,14 +199,27 @@ interface HandleProps {
   isDragging: boolean
 }
 
-const Handle: FC<HandleProps> = ({ position, isDragging, ...props }) => {
+const Handle: FC<HandleProps> = ({ position, isDragging, stage, ...props }) => {
+  let handleColor = ""
+  switch (stage) {
+    case "active":
+      handleColor = "bg-green-500"
+      break
+    case "completed":
+      handleColor = "bg-neutral-500"
+      break
+    case "upcoming":
+      handleColor = "bg-purple-400"
+      break
+  }
   return (
     <motion.div
       className={cn(
-        "h-full w-3 absolute right-0 transition duration-300 hover:bg-green-500 cursor-col-resize",
+        "h-full w-3 absolute right-0 transition duration-300 cursor-col-resize",
+        `hover:${handleColor}`,
         position == "right" && "right-0",
         position == "left" && "left-0",
-        isDragging && "bg-green-500"
+        isDragging && handleColor
       )}
       drag="x"
       dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
