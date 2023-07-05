@@ -47,7 +47,12 @@ const SpacesManager = async () => {
             <Text className="text-sm text-muted-foreground text-center">
               or
             </Text>
-            <CreateSpaceModal />
+            <CreateSpaceModal>
+              <Button variant="outline" className="w-full">
+                <Icons.pluscircle className="w-4 h-4" />
+                Create space
+              </Button>
+            </CreateSpaceModal>
           </div>
         </div>
       </CardContent>

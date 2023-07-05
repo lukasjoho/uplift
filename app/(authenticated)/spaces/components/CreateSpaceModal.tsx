@@ -10,15 +10,10 @@ import {
 
 import CreateSpaceForm from "./CreateSpaceForm"
 
-const CreateSpaceModal = () => {
+const CreateSpaceModal = ({ children }: any) => {
   return (
     <Modal>
-      <ModalOpenButton>
-        <Button variant="outline" className="w-full">
-          <Icons.pluscircle className="w-4 h-4" />
-          Create space
-        </Button>
-      </ModalOpenButton>
+      <ModalOpenButton>{children}</ModalOpenButton>
       <ModalContents title="Create Space" maxSize="sm">
         <CreateSpaceForm />
       </ModalContents>

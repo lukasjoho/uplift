@@ -160,39 +160,8 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
       <HypothesisContext.Provider value={{ answer, setAnswer }}>
         <Form {...form}>
           {/* <pre>{JSON.stringify(form, null, 2)}</pre> */}
-          <div className="grid grid-cols-12 gap-6">
-            <div className="col-span-6">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter title" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="col-span-6">
-              <FormField
-                control={form.control}
-                name="identifier"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Identifier</FormLabel>
-                    <FormControl>
-                      <Input placeholder="..." {...field} disabled />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="col-span-12">
+          <div className="grid grid-cols-12 gap-12">
+            <div className="col-span-7 grid gap-6">
               <FormField
                 control={form.control}
                 name="hypothesis"
@@ -215,109 +184,7 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
                   </FormItem>
                 )}
               />
-            </div>
 
-            <div className="col-span-6">
-              <FormField
-                control={form.control}
-                name="startDate"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Start Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-[240px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              formatDate(field.value)
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={new Date(field.value)}
-                          onSelect={(date) => {
-                            console.log("SEL DATE", date)
-                            const dateString = date?.toISOString()
-                            console.log("SEL STR DATE", dateString)
-
-                            field.onChange(dateString)
-                          }}
-                          // disabled={(date) =>
-                          //   date < new Date() || date < new Date("1900-01-01")
-                          // }
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="col-span-6">
-              <FormField
-                control={form.control}
-                name="endDate"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>End Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-[240px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              formatDate(field.value)
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={new Date(field.value)}
-                          onSelect={(date) => {
-                            const dateString = date?.toISOString()
-                            field.onChange(dateString)
-                          }}
-                          disabled={(date) => {
-                            return (
-                              date < new Date(watchedStartDate) ||
-                              date < new Date("1900-01-01")
-                            )
-                          }}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="col-span-12">
               <FormField
                 control={form.control}
                 name="cover"
@@ -331,91 +198,210 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
                   </FormItem>
                 )}
               />
-            </div>
-            <div className="col-span-6">
-              <FormField
-                control={form.control}
-                name="deployUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Deploy URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter deploy URL"
-                        {...field}
-                        icon={<Globe className="w-4 h-4" />}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="col-span-6">
-              <FormField
-                control={form.control}
-                name="designUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Design URL</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter design URL"
-                        {...field}
-                        icon={<PenTool className="w-4 h-4" />}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="col-span-6">
-              <FormField
-                control={form.control}
-                name="dashboardUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Dashboard</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter dashboard URL"
-                        {...field}
-                        icon={<LineChart className="w-4 h-4" />}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="col-span-6">
-              <FormField
-                control={form.control}
-                name="evaluationUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Evaluation</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter evaluation URL"
-                        {...field}
-                        icon={<FilePieChart className="w-4 h-4" />}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="col-span-12">
               <VariantSelect
                 name="variants"
                 setValue={form.setValue}
                 watch={form.watch}
                 required={true}
               />
+            </div>
+            <div className="col-span-5 flex flex-col gap-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="identifier"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Identifier</FormLabel>
+                    <FormControl>
+                      <Input placeholder="..." {...field} disabled />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex gap-6">
+                <FormField
+                  control={form.control}
+                  name="startDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col grow shrink-0">
+                      <FormLabel>Start Date</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full max-w-[240px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                formatDate(field.value)
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={new Date(field.value)}
+                            onSelect={(date) => {
+                              console.log("SEL DATE", date)
+                              const dateString = date?.toISOString()
+                              console.log("SEL STR DATE", dateString)
+
+                              field.onChange(dateString)
+                            }}
+                            // disabled={(date) =>
+                            //   date < new Date() || date < new Date("1900-01-01")
+                            // }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col grow shrink-0">
+                      <FormLabel>End Date</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                formatDate(field.value)
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={new Date(field.value)}
+                            onSelect={(date) => {
+                              const dateString = date?.toISOString()
+                              field.onChange(dateString)
+                            }}
+                            disabled={(date) => {
+                              return (
+                                date < new Date(watchedStartDate) ||
+                                date < new Date("1900-01-01")
+                              )
+                            }}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex gap-6">
+                <FormField
+                  control={form.control}
+                  name="deployUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Deploy URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter deploy URL"
+                          {...field}
+                          icon={<Globe className="w-4 h-4" />}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="designUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Design URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter design URL"
+                          {...field}
+                          icon={<PenTool className="w-4 h-4" />}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex gap-6">
+                <FormField
+                  control={form.control}
+                  name="dashboardUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dashboard</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter dashboard URL"
+                          {...field}
+                          icon={<LineChart className="w-4 h-4" />}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="evaluationUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Evaluation</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter evaluation URL"
+                          {...field}
+                          icon={<FilePieChart className="w-4 h-4" />}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
           </div>
 

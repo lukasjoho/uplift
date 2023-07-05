@@ -1,7 +1,7 @@
 import { Session } from "inspector"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { User } from "@prisma/client"
-import { NextAuthOptions } from "next-auth"
+import { NextAuthOptions, getServerSession } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
 import { prisma } from "./prisma"
@@ -73,6 +73,11 @@ export const authOptions: NextAuthOptions = {
         hasCompletedSignUp: dbUser.hasCompletedSignUp,
       }
     },
+    redirect() {
+      return "/space"
+    },
   },
   secret: process.env.NEXTAUTH_SECRET!,
 }
+
+export const getAuthSession = () => getServerSession(authOptions)
