@@ -16,8 +16,13 @@ interface ImageUploadFieldProps {
 const ImageUploadField: FC<ImageUploadFieldProps> = ({
   isUploading,
   imageUrl,
+  setImageUrl,
   ...props
 }) => {
+  const handleRemove = (e: any) => {
+    e.stopPropagation()
+    setImageUrl("cover", "")
+  }
   return (
     <>
       <div
@@ -27,13 +32,8 @@ const ImageUploadField: FC<ImageUploadFieldProps> = ({
           imageUrl && "border-solid"
         )}
       >
-        {isUploading && (
-          <div>
-            <Loader2 className="h-8 w-8 animate-spin" />
-          </div>
-        )}
         {!isUploading && !imageUrl && <Placeholder />}
-        {imageUrl && (
+        {imageUrl && !isUploading && (
           <Image
             src={imageUrl}
             style={{ objectFit: "cover" }}
@@ -41,16 +41,21 @@ const ImageUploadField: FC<ImageUploadFieldProps> = ({
             fill={true}
           />
         )}
-        {imageUrl && (
+        {imageUrl && !isUploading && (
           <>
             <Button
               variant="outline"
               className="w-10 rounded-full p-0 absolute bottom-2 right-2 bg-background"
+              onClick={handleRemove}
             >
               <X className="h-4 w-4" />
-              <span className="sr-only">Add</span>
             </Button>
           </>
+        )}
+        {isUploading && (
+          <div>
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
         )}
       </div>
     </>

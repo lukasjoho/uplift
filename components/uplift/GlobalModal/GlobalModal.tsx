@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { X } from "lucide-react"
 
 import { useWindowSize } from "@/lib/hooks"
+import { cn } from "@/lib/utils"
 
 import Title from "../title"
 import BottomSheet from "./BottomSheet"
@@ -61,7 +62,13 @@ interface ModalContentsProps {
   [x: string]: any
 }
 
-function ModalContents({ title, children: child, maxSize, ...props }: any) {
+function ModalContents({
+  title,
+  children: child,
+  maxSize,
+  test,
+  ...props
+}: any) {
   const [isOpen, setIsOpen] = React.useContext(ModalContext)
   useFixBackground(isOpen)
 
@@ -79,11 +86,16 @@ function ModalContents({ title, children: child, maxSize, ...props }: any) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed w-screen h-screen left-0 top-0 z-50 grid">
+        <div
+          className={cn(
+            "fixed w-screen h-screen left-0 top-0 z-50 grid",
+            test && "bg-green-500"
+          )}
+        >
           <ModalOverlay
             handleModalBackgroundClick={handleModalBackgroundClick}
           />
-          <ModalBody size={size} maxSize={maxSize}>
+          <ModalBody size={size} maxSize={maxSize} test={test}>
             <ModalHeader title={title} handleClose={handleClose} />
             {React.cloneElement(child, {
               handleClose: handleClose,
@@ -124,7 +136,7 @@ const ModalFooter = ({ children }: any) => {
 const ModalBody = ({ children, size, maxSize }: any) => {
   return (
     <>
-      <div className="hidden md:grid">
+      <div className="hidden md:grid ">
         <CenterModal maxSize={maxSize}>{children}</CenterModal>
       </div>
       <div className="md:hidden w-full">

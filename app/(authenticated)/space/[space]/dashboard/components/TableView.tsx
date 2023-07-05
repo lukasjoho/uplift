@@ -40,7 +40,7 @@ const TableView = async () => {
                 identifier,
                 decision,
                 country,
-                status,
+                isEnabled,
                 startDate,
                 endDate,
                 dri,
@@ -54,7 +54,7 @@ const TableView = async () => {
                     <DecisionCell decision={decision} />
                   </TableCell>
                   <TableCell>
-                    <StatusCell status={status} />
+                    <StatusCell isEnabled={isEnabled} />
                   </TableCell>
                   <TableCell>{country?.label}</TableCell>
                   <TableCell>{formatDate(startDate)}</TableCell>
@@ -106,16 +106,8 @@ const DecisionCell: FC<DecisionCellProps> = ({ decision }) => {
 }
 
 interface StatusCellProps {
-  status: {
-    id: string
-    value: string
-    label: string
-  }
+  isEnabled: boolean
 }
-const StatusCell: FC<StatusCellProps> = ({ status }) => {
-  if (!status) {
-    return null
-  }
-  const { label } = status
-  return <div>{label}</div>
+const StatusCell: FC<StatusCellProps> = ({ isEnabled }) => {
+  return <div>{JSON.stringify(isEnabled)}</div>
 }

@@ -34,7 +34,7 @@ const Report = async () => {
     upcoming: 0,
   }
   const determineStage = (experiment: any) => {
-    const { startDate, endDate, status } = experiment
+    const { startDate, endDate } = experiment
     if (new Date(endDate) < new Date()) {
       return "completed"
     }

@@ -134,8 +134,7 @@ model Experiment {
   hypothesis  String?
   decision     Decision? @relation(fields: [decisionId], references: [id])
   decisionId   String?
-  status       Status? @relation(fields: [statusId], references: [id])
-  statusId     String?
+
   country      Country? @relation(fields: [countryId], references: [id])
   countryId    String?
   startDate    DateTime?
@@ -156,15 +155,6 @@ model Experiment {
   improvement Decimal?
   statSig Decimal?
   
-}
-
-
-
-model Status {
-  id          String   @id @default(cuid())
-  value       Boolean  @default(false)
-  label       String   @unique
-  experiments Experiment[]
 }
 
 model Country {

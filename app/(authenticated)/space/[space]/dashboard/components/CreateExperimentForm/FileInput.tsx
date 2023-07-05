@@ -7,7 +7,7 @@ import ToastBody from "@/components/uplift/ToastBody"
 
 import ImageUploadField from "../ImageUploadField"
 
-function FileInput({ setValue }: any) {
+function FileInput({ value, setValue }: any) {
   const [isUploading, setIsUploading] = useState(false)
   const [showSpinner, setShowSpinner] = useState(false)
 
@@ -46,9 +46,9 @@ function FileInput({ setValue }: any) {
     })
 
     const handleNewURL = () => {
-      setImageUrl(
-        `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.amazonaws.com/experiments/${data.timestamp}-${filename}`
-      )
+      // setImageUrl(
+      //   `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.amazonaws.com/experiments/${data.timestamp}-${filename}`
+      // )
       setValue(
         "cover",
         `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.amazonaws.com/experiments/${data.timestamp}-${filename}`
@@ -79,7 +79,8 @@ function FileInput({ setValue }: any) {
       <ImageUploadField
         onClick={handleButtonClick}
         isUploading={isUploading}
-        imageUrl={imageUrl}
+        imageUrl={value}
+        setImageUrl={setValue}
       />
       <input
         type="file"

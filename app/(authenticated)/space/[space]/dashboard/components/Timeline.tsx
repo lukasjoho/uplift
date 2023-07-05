@@ -160,12 +160,6 @@ const Timeline = async () => {
                         startDate
                       )
                       return (
-                        // <SwimLaneItem
-                        //   days={days}
-                        //   daysFromStart={daysFromStart}
-                        //   experiment={experiment}
-                        // />
-
                         <Resizable
                           days={days}
                           daysFromStart={daysFromStart}

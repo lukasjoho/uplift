@@ -11,6 +11,7 @@ import {
   ModalOpenButton,
 } from "@/components/uplift/GlobalModal/GlobalModal"
 
+import CreateExperimentForm from "./CreateExperimentForm"
 import { TIMELINE_SETTINGS } from "./Timeline/constants"
 
 interface SwimLaneItemProps {
@@ -80,7 +81,7 @@ const Resizable: FC<SwimLaneItemProps> = ({
   }
 
   const determineStage = (experiment: any) => {
-    const { startDate, endDate, status } = experiment
+    const { startDate, endDate } = experiment
     if (new Date(endDate) < new Date()) {
       return "completed"
     }
@@ -184,7 +185,7 @@ const Resizable: FC<SwimLaneItemProps> = ({
           </motion.div>
         </ModalOpenButton>
         <ModalContents title={experiment.name} maxSize="xl">
-          <div>New Modal</div>
+          <CreateExperimentForm experiment={experiment} />
         </ModalContents>
       </Modal>
     </div>

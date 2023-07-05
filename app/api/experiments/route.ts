@@ -8,7 +8,6 @@ export async function GET() {
     include: {
       decision: true,
       country: true,
-      status: true,
       dri: true,
     },
   })

@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useEffect } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { revalidatePath } from "next/cache"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -46,6 +46,8 @@ import FileInput from "@/app/(authenticated)/space/[space]/dashboard/components/
 import { revalidateServerPath } from "@/app/actions"
 
 import ImageUploadField from "./ImageUploadField"
+import RefineHypothesis from "./RefineHypothesis"
+import RefineResult from "./RefineResult"
 import VariantSelect from "./VariantSelect"
 
 const createExperiment = async (values: any) => {
@@ -88,24 +90,29 @@ const formSchema: any = z.object({
   cover: z.string(),
 })
 
-const CreateExperimentForm = ({ handleClose }: any) => {
+export const HypothesisContext = createContext({
+  answer: null,
+  setAnswer: (answer: any) => {},
+})
+
+const CreateExperimentForm = ({ experiment, handleClose }: any) => {
   const [, setIsOpen]: any = useContext(ModalContext)
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onBlur",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      identifier: "exp-",
-      hypothesis: "",
-      startDate: new Date().toISOString(),
-      endDate: "",
-      cover: "",
-      dashboardUrl: "",
-      deployUrl: "",
-      evaluationUrl: "",
-      designUrl: "",
-      variants: [
+      name: experiment?.name || "",
+      identifier: experiment?.identifier || "exp-",
+      hypothesis: experiment?.hypothesis || "",
+      startDate: experiment?.startDate || new Date().toISOString(),
+      endDate: experiment?.endDate || "",
+      cover: experiment?.cover || "",
+      dashboardUrl: experiment?.dashboardUrl || "",
+      deployUrl: experiment?.deployUrl || "",
+      evaluationUrl: experiment?.evaluationUrl || "",
+      designUrl: experiment?.designUrl || "",
+      variants: experiment?.variants || [
         {
           id: "a",
           weight: 0.5,
@@ -124,6 +131,8 @@ const CreateExperimentForm = ({ handleClose }: any) => {
   const { isValid } = form.formState
   const watchedValue = form.watch("name")
   const watchedStartDate = form.watch("startDate")
+  const watchedHypothesis = form.watch("hypothesis")
+  useEffect(() => {}, [watchedHypothesis])
   useEffect(() => {
     form.setValue("identifier", "exp-" + convertToLowercase(watchedValue))
   }, [watchedValue])
@@ -144,289 +153,292 @@ const CreateExperimentForm = ({ handleClose }: any) => {
       toast.error(<ToastBody title="Failed" message={data.message} />)
     }
   }
+  const [answer, setAnswer] = useState(null)
 
   return (
     <>
-      <Form {...form}>
-        {/* <pre>{JSON.stringify(form, null, 2)}</pre> */}
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-6">
-            <FormField
-              control={form.control}
-              name="identifier"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Identifier</FormLabel>
-                  <FormControl>
-                    <Input placeholder="..." {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-12">
-            <FormField
-              control={form.control}
-              name="hypothesis"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="w-full flex justify-between items-center">
-                    <FormLabel>Hypothesis</FormLabel>
-                    <button className="rounded-sm border border-amber-600 text-xs font-semibold px-2 py-1 flex gap-1 items-center">
-                      <Sparkles className="w-4 h-4" />
-                      Refine
-                    </button>
-                  </div>
-                  <FormControl>
-                    <Textarea
-                      className="bg-background min-w-[240px]"
-                      placeholder="By doing X, we expect Y to happen because of Z."
-                      {...field}
-                    />
-                  </FormControl>
+      <HypothesisContext.Provider value={{ answer, setAnswer }}>
+        <Form {...form}>
+          {/* <pre>{JSON.stringify(form, null, 2)}</pre> */}
+          <div className="grid grid-cols-12 gap-6">
+            <div className="col-span-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-6">
+              <FormField
+                control={form.control}
+                name="identifier"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Identifier</FormLabel>
+                    <FormControl>
+                      <Input placeholder="..." {...field} disabled />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="col-span-6">
-            <FormField
-              control={form.control}
-              name="startDate"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Start Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            formatDate(field.value)
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={new Date(field.value)}
-                        onSelect={(date) => {
-                          console.log("SEL DATE", date)
-                          const dateString = date?.toISOString()
-                          console.log("SEL STR DATE", dateString)
-
-                          field.onChange(dateString)
-                        }}
-                        // disabled={(date) =>
-                        //   date < new Date() || date < new Date("1900-01-01")
-                        // }
-                        initialFocus
+            <div className="col-span-12">
+              <FormField
+                control={form.control}
+                name="hypothesis"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="w-full flex justify-between items-center">
+                      <FormLabel>Hypothesis</FormLabel>
+                      <RefineHypothesis value={watchedHypothesis} />
+                    </div>
+                    <FormControl>
+                      <Textarea
+                        className="bg-background min-w-[240px]"
+                        placeholder="By doing X, we expect Y to happen because of Z."
+                        {...field}
                       />
-                    </PopoverContent>
-                  </Popover>
+                    </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-6">
-            <FormField
-              control={form.control}
-              name="endDate"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>End Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            formatDate(field.value)
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={new Date(field.value)}
-                        onSelect={(date) => {
-                          const dateString = date?.toISOString()
-                          field.onChange(dateString)
-                        }}
-                        disabled={(date) => {
-                          return (
-                            date < new Date(watchedStartDate) ||
-                            date < new Date("1900-01-01")
-                          )
-                        }}
-                        initialFocus
+                    <FormMessage />
+                    {answer && <RefineResult answer={answer} />}
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="col-span-6">
+              <FormField
+                control={form.control}
+                name="startDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Start Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              formatDate(field.value)
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={new Date(field.value)}
+                          onSelect={(date) => {
+                            console.log("SEL DATE", date)
+                            const dateString = date?.toISOString()
+                            console.log("SEL STR DATE", dateString)
+
+                            field.onChange(dateString)
+                          }}
+                          // disabled={(date) =>
+                          //   date < new Date() || date < new Date("1900-01-01")
+                          // }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-6">
+              <FormField
+                control={form.control}
+                name="endDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>End Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              formatDate(field.value)
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarClock className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={new Date(field.value)}
+                          onSelect={(date) => {
+                            const dateString = date?.toISOString()
+                            field.onChange(dateString)
+                          }}
+                          disabled={(date) => {
+                            return (
+                              date < new Date(watchedStartDate) ||
+                              date < new Date("1900-01-01")
+                            )
+                          }}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-12">
+              <FormField
+                control={form.control}
+                name="cover"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cover Image</FormLabel>
+                    <FormControl>
+                      <FileInput setValue={form.setValue} value={field.value} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-6">
+              <FormField
+                control={form.control}
+                name="deployUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Deploy URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter deploy URL"
+                        {...field}
+                        icon={<Globe className="w-4 h-4" />}
                       />
-                    </PopoverContent>
-                  </Popover>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-6">
+              <FormField
+                control={form.control}
+                name="designUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Design URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter design URL"
+                        {...field}
+                        icon={<PenTool className="w-4 h-4" />}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-6">
+              <FormField
+                control={form.control}
+                name="dashboardUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Dashboard</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter dashboard URL"
+                        {...field}
+                        icon={<LineChart className="w-4 h-4" />}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-6">
+              <FormField
+                control={form.control}
+                name="evaluationUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Evaluation</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter evaluation URL"
+                        {...field}
+                        icon={<FilePieChart className="w-4 h-4" />}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-12">
-            <FormField
-              control={form.control}
-              name="cover"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cover Image</FormLabel>
-                  <FormControl>
-                    <FileInput setValue={form.setValue} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-6">
-            <FormField
-              control={form.control}
-              name="deployUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Deploy URL</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter deploy URL"
-                      {...field}
-                      icon={<Globe className="w-4 h-4" />}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-6">
-            <FormField
-              control={form.control}
-              name="designUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Design URL</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter design URL"
-                      {...field}
-                      icon={<PenTool className="w-4 h-4" />}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-6">
-            <FormField
-              control={form.control}
-              name="dashboardUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Dashboard</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter dashboard URL"
-                      {...field}
-                      icon={<LineChart className="w-4 h-4" />}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-6">
-            <FormField
-              control={form.control}
-              name="evaluationUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Evaluation</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter evaluation URL"
-                      {...field}
-                      icon={<FilePieChart className="w-4 h-4" />}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="col-span-12">
+              <VariantSelect
+                name="variants"
+                setValue={form.setValue}
+                watch={form.watch}
+                required={true}
+              />
+            </div>
           </div>
 
-          <div className="col-span-12">
-            <VariantSelect
-              name="variants"
-              setValue={form.setValue}
-              watch={form.watch}
-              required={true}
-            />
+          <div className="mt-12">
+            <Button
+              className="m-0"
+              onClick={form.handleSubmit(onSubmit)}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Creating...
+                </>
+              ) : experiment ? (
+                "Save"
+              ) : (
+                "Create"
+              )}
+            </Button>
           </div>
-        </div>
-
-        <div className="mt-12">
-          <Button
-            className="m-0"
-            onClick={form.handleSubmit(onSubmit)}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating...
-              </>
-            ) : (
-              "Create"
-            )}
-          </Button>
-        </div>
-        <pre>{JSON.stringify(formValues, null, 2)}</pre>
-      </Form>
+        </Form>
+      </HypothesisContext.Provider>
     </>
   )
 }
