@@ -3,6 +3,7 @@ import Image from "next/image"
 
 import { formatDate } from "@/lib/helpers"
 import { Badge } from "@/components/ui/badge"
+import { Switch } from "@/components/ui/switch"
 import {
   Table,
   TableBody,
@@ -109,5 +110,5 @@ interface StatusCellProps {
   isEnabled: boolean
 }
 const StatusCell: FC<StatusCellProps> = ({ isEnabled }) => {
-  return <div>{JSON.stringify(isEnabled)}</div>
+  return <Switch />
 }
