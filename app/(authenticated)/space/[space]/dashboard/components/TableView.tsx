@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 
 import { formatDate } from "@/lib/helpers"
+import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import {
@@ -98,9 +99,23 @@ const DecisionCell: FC<DecisionCellProps> = ({ decision }) => {
     return null
   }
   const { label } = decision
+  let styling = ""
+  switch (label) {
+    case "Iterate":
+      styling = "bg-yellow-500/20 text-yellow-500"
+      break
+    case "Close":
+      styling = "bg-red-500/20 text-red-500"
+      break
+    case "Roll Out":
+      styling = "bg-green-500/20 text-green-500"
+      break
+    default:
+      styling = ""
+  }
   return (
     <div>
-      <Badge>{label}</Badge>
+      <Badge className={cn("", styling)}>{label}</Badge>
     </div>
   )
 }
