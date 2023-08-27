@@ -16,7 +16,7 @@ import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 
 const TableView = async () => {
-  const res = await fetch(`http://localhost:3000/api/experiments`)
+  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/experiments`)
   const experiments = await res.json()
   return (
     <div>

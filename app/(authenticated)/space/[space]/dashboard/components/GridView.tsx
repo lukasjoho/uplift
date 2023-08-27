@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import Title from "@/components/uplift/title"
 
 const GridView = async () => {
-  const res = await fetch(`http://localhost:3000/api/experiments`)
+  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/experiments`)
   const experiments = await res.json()
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

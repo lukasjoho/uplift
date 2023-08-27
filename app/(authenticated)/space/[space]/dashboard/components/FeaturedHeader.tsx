@@ -24,9 +24,12 @@ const FeaturedHeader = () => {
 export default FeaturedHeader
 
 const Report = async () => {
-  const res = await fetch(`http://localhost:3000/api/experiments`, {
-    cache: "no-store",
-  })
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST_URL}/api/experiments`,
+    {
+      cache: "no-store",
+    }
+  )
   const experiments = await res.json()
   let stagesCount: any = {
     active: 0,

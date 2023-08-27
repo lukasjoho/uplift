@@ -134,7 +134,7 @@ function isOverlap(experiments: any, newExperiment: any) {
 }
 
 const Timeline = async () => {
-  const res = await fetch(`http://localhost:3000/api/experiments`)
+  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/experiments`)
   const experiments = await res.json()
   const swimlanes = clusterExperiments(experiments)
 
