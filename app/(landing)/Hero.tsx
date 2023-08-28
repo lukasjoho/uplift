@@ -17,10 +17,10 @@ const Hero = () => {
         <div className="flex flex-col items-center gap-2 md:gap-4 xl:gap-8">
           <h1 className="text-4xl font-extrabold leading-tight tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl text-center">
             <span className="bg-gradient-to-r from-green-400 via-green-500 to-green-400 bg-clip-text text-transparent">
-              Supercharge
+              Experiment
             </span>
             <br />
-            experimentation
+            relentlessly
           </h1>
           <p className="max-w-[700px] text-lg text-muted-foreground sm:text-xl text-center">
             Uplift is an experimentation platform streamlining the management
