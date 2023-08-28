@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 
 import { formatDate } from "@/lib/helpers"
+import { prisma } from "@/lib/prisma"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
@@ -16,8 +17,13 @@ import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 
 const TableView = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/experiments`)
-  const experiments = await res.json()
+  const experiments = await prisma.experiment.findMany({
+    include: {
+      decision: true,
+      country: true,
+      dri: true,
+    },
+  })
   return (
     <div>
       <div className="border rounded-lg">
