@@ -91,7 +91,7 @@ model Feedback {
   id           String    @id @default(cuid())
   content      String
   createdAt    DateTime @default(now())
-  vote Vote[]
+  votes Vote[]
 }
 
 model Vote { 

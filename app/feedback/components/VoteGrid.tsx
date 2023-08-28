@@ -13,13 +13,16 @@ const getAllFeedback = async () => {
     include: {
       _count: {
         select: {
-          vote: true,
+          votes: true,
         },
       },
-      vote: true,
+      votes: true,
     },
   })
-  return feedbacks
+  const sortedFeedbacks = feedbacks.sort(
+    (a, b) => b.votes.length - a.votes.length
+  )
+  return sortedFeedbacks
 }
 
 const VoteGrid = async () => {
