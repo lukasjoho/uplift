@@ -1,23 +1,5 @@
-"use client"
-
 import Link from "next/link"
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LayoutDashboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react"
+import { LayoutDashboard, LifeBuoy, Settings } from "lucide-react"
 import { signOut } from "next-auth/react"
 
 import {
@@ -25,17 +7,14 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function AvatarDropdown({ children }: any) {
+import DropdownLogout from "./DropdownLogout"
+import { AuthLink } from "./SpaceHeader"
+
+const AvatarDropdown = async ({ children }: any) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -62,11 +41,10 @@ export function AvatarDropdown({ children }: any) {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
-        </DropdownMenuItem>
+        <DropdownLogout />
       </DropdownMenuContent>
     </DropdownMenu>
   )
 }
+
+export default AvatarDropdown

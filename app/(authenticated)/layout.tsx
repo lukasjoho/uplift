@@ -9,7 +9,6 @@ interface AppLayoutProps {
 }
 
 export default async function AppLayout({ children, req }: AppLayoutProps) {
-  // const headersList = headers()
   const session = await getServerSession(authOptions)
   if (!session) {
     redirect("/login")

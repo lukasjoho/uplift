@@ -8,7 +8,7 @@ import { signIn, useSession } from "next-auth/react"
 import { authOptions } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 
-import { AvatarDropdown } from "./AvatarDropdown"
+import AvatarDropdown from "./AvatarDropdown"
 import LoginButton from "./LoginButton"
 
 const AvatarOrLogin = () => {
@@ -24,6 +24,7 @@ const AvatarOrLogin = () => {
     return (
       <div>
         <div className="rounded-full overflow-hidden w-6 aspect-square">
+          {/* @ts-expect-error server component */}
           <AvatarDropdown>
             <Image
               className="cursor-pointer"

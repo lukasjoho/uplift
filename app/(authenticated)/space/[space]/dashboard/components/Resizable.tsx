@@ -1,9 +1,10 @@
 "use client"
 
-import React, { FC, useCallback, useState } from "react"
+import React, { FC, useCallback, useEffect, useState } from "react"
 import { is } from "date-fns/locale"
 import { motion, useMotionValue } from "framer-motion"
 
+import { getDateDiffInDays } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
 import {
   Modal,
@@ -20,11 +21,12 @@ interface SwimLaneItemProps {
   experiment?: any
 }
 
-const Resizable: FC<SwimLaneItemProps> = ({
-  days = 0,
-  daysFromStart = 0,
-  experiment,
-}) => {
+const Resizable: FC<SwimLaneItemProps> = ({ experiment }) => {
+  console.log("RENDERED")
+  const startDate: any = new Date(experiment.startDate)
+  const endDate: any = new Date(experiment.endDate)
+  const days = getDateDiffInDays(startDate, endDate)
+  const daysFromStart = getDateDiffInDays("2023-01-01T16:21:12.256Z", startDate)
   const [isDragging, setIsDragging] = useState(false)
   const mWidth = useMotionValue(TIMELINE_SETTINGS.UNIT_WIDTH * days)
   const mPos = useMotionValue(
@@ -32,6 +34,10 @@ const Resizable: FC<SwimLaneItemProps> = ({
       9 -
       TIMELINE_SETTINGS.DAY_WIDTH / 2
   )
+
+  // useEffect(() => {
+  //   mWidth.set(TIMELINE_SETTINGS.UNIT_WIDTH * days)
+  // }, [days])
 
   const handleDrag = useCallback(
     (event: any, info: any, position: "left" | "center" | "right") => {

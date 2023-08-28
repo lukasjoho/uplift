@@ -1,7 +1,8 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { FC, createContext, useContext, useEffect, useState } from "react"
 import { revalidatePath } from "next/cache"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   CalendarClock,
@@ -19,6 +20,17 @@ import * as z from "zod"
 
 import { convertToLowercase, formatDate } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -61,6 +73,23 @@ const createExperiment = async (values: any) => {
   return res
 }
 
+const updateExperiment = async (data: any) => {
+  const res = await fetch("/api/experiments", {
+    body: JSON.stringify(data),
+    method: "PUT",
+  })
+  revalidateServerPath("space/uplift/dashboard")
+  return res
+}
+
+const deleteExperiment = async (id: string) => {
+  const res = await fetch(`/api/experiments?id=${id}`, {
+    method: "DELETE",
+  })
+  revalidateServerPath("space/uplift/dashboard")
+  return res
+}
+
 const objectSchema = z.object({
   id: z.string(),
   weight: z.number(),
@@ -97,6 +126,7 @@ export const HypothesisContext = createContext({
 
 const CreateExperimentForm = ({ experiment, handleClose }: any) => {
   const [, setIsOpen]: any = useContext(ModalContext)
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onBlur",
@@ -143,11 +173,21 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
         values[key] = null
       }
     })
-    const res = await createExperiment(values)
+    let res
+    let successMessage
+
+    if (experiment) {
+      res = await updateExperiment({ id: experiment.id, ...values })
+      successMessage = "Experiment updated."
+    } else {
+      res = await createExperiment(values)
+      successMessage = "Experiment created."
+    }
+
     const data = await res.json()
     if (res.ok) {
-      toast.success(<ToastBody title="Success" message="Experiment created." />)
-      revalidateServerPath("space/finn/dashboard")
+      toast.success(<ToastBody title="Success" message={successMessage} />)
+      revalidateServerPath("space/uplift/dashboard")
       setIsOpen(false)
     } else {
       toast.error(<ToastBody title="Failed" message={data.message} />)
@@ -417,22 +457,14 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
           </div>
 
           <div className="mt-12">
-            <Button
+            <SubmitButton
               className="m-0"
               onClick={form.handleSubmit(onSubmit)}
               disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating...
-                </>
-              ) : experiment ? (
-                "Save"
-              ) : (
-                "Create"
-              )}
-            </Button>
+              label={experiment ? "Update" : "Create"}
+              loadingLabel={experiment ? "Updating..." : "Creating..."}
+            />
+            {experiment && <DeleteAlert id={experiment.id} />}
           </div>
         </Form>
       </HypothesisContext.Provider>
@@ -441,3 +473,47 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
 }
 
 export default CreateExperimentForm
+
+const SubmitButton = (props: any) => {
+  return (
+    <Button {...props}>
+      {props.isSubmitting && (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          {props.loadingLabel}
+        </>
+      )}
+      {!props.isSubmitting && props.label}
+    </Button>
+  )
+}
+
+interface DeleteAlertProps {
+  id: string
+}
+const DeleteAlert: FC<DeleteAlertProps> = ({ id }) => {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger>
+        <Button variant="destructive">Delete</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Experiment</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently the experiment.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            className="bg-red-500 hover:bg-red-600 text-white"
+            onClick={() => deleteExperiment(id)}
+          >
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}

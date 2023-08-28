@@ -129,6 +129,8 @@ model Decision {
 
 model Experiment {
   id          String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt @default(now())
   name        String   @unique
   identifier  String   @unique
   hypothesis  String?
