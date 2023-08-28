@@ -98,7 +98,9 @@ const CreateSpaceForm = ({ handleClose }: any) => {
             <FormItem>
               <FormLabel>Space URL</FormLabel>
               <Input
-                value={`https://finn.com/space/${convertToSlug(watchedValue)}`}
+                value={`https://uplift.app/space/${convertToSlug(
+                  watchedValue
+                )}`}
                 disabled
               />
             </FormItem>
