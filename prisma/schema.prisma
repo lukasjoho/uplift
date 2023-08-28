@@ -95,11 +95,12 @@ model Feedback {
 }
 
 model Vote { 
-  id           String    @id @default(cuid())
   createdAt    DateTime @default(now())
   feedback     Feedback @relation(fields: [feedbackId], references: [id])
   feedbackId   String
   voteType     VoteType
+  anonymousId  String @default(cuid())
+  @@id([feedbackId, anonymousId])
 }
 
 model Role {
@@ -129,6 +130,8 @@ model Decision {
 
 model Experiment {
   id          String   @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime 
   name        String   @unique
   identifier  String   @unique
   hypothesis  String?

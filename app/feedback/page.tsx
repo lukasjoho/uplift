@@ -10,9 +10,9 @@ import VoteGrid from "./components/VoteGrid"
 
 const FeedbackPage = () => {
   return (
-    <div className="pt-16">
+    <div className="pt-8 md:pt-16">
       <Container>
-        <div className="space-y-12">
+        <div className="space-y-6 md:space-y-12">
           <PageHeader
             title="Feedback"
             subtitle="Vote on feedback or submit your own."
@@ -22,7 +22,6 @@ const FeedbackPage = () => {
             <VoteGrid />
           </Suspense>
         </div>
-        {/* <pre>{JSON.stringify(feedbacks, null, 2)}</pre> */}
       </Container>
     </div>
   )

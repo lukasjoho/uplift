@@ -1,4 +1,6 @@
-import React from "react"
+"use client"
+
+import React, { useState } from "react"
 import Link from "next/link"
 
 import { Button } from "../ui/button"
@@ -14,8 +16,9 @@ import { Textarea } from "../ui/textarea"
 import FeedbackForm from "./FeedbackForm"
 
 const DropMenu = () => {
+  const [open, setOpen] = useState(false)
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger>
         <Button variant="outline" size="sm" className="text-sm">
           Feedback
@@ -25,7 +28,7 @@ const DropMenu = () => {
         <DropdownMenuLabel>Feedback</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="p-2">
-          <FeedbackForm />
+          <FeedbackForm onOpenChange={setOpen} />
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,9 +1,10 @@
 "use client"
 
-import React from "react"
+import React, { FC } from "react"
 import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
 import * as z from "zod"
 
 import { createFeedback } from "@/app/actions"
@@ -11,12 +12,16 @@ import { createFeedback } from "@/app/actions"
 import { Button } from "../ui/button"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 import { Textarea } from "../ui/textarea"
+import ToastBody from "./ToastBody"
 
 const formSchema = z.object({
   content: z.string().max(1000).nonempty("Feedback is required."),
 })
 
-const FeedbackForm = () => {
+interface FeedbackFormProps {
+  onOpenChange: (value: boolean) => void
+}
+const FeedbackForm: FC<FeedbackFormProps> = ({ onOpenChange }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,9 +31,15 @@ const FeedbackForm = () => {
   const { isValid } = form.formState
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    await createFeedback(values)
+    const { success, message } = await createFeedback(values)
+    if (success) {
+      toast.success(<ToastBody title="Success" message="Feedback created." />)
+      onOpenChange(false)
+    } else {
+      toast.error(
+        <ToastBody title="Error" message="Feedback creation failed." />
+      )
+    }
   }
   return (
     <div className="flex flex-col gap-3">
@@ -59,7 +70,11 @@ const FeedbackForm = () => {
           </Button>
         </form>
       </Form>
-      <Link href="/feedback" className="flex flex-col items-stretch">
+      <Link
+        href="/feedback"
+        className="flex flex-col items-stretch"
+        onClick={() => onOpenChange(false)}
+      >
         <Button variant="ghost">See all feedback</Button>
       </Link>
     </div>
