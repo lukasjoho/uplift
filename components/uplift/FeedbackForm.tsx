@@ -19,7 +19,7 @@ const formSchema = z.object({
 })
 
 interface FeedbackFormProps {
-  onOpenChange: (value: boolean) => void
+  onOpenChange?: (value: boolean) => void
 }
 const FeedbackForm: FC<FeedbackFormProps> = ({ onOpenChange }) => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -30,11 +30,16 @@ const FeedbackForm: FC<FeedbackFormProps> = ({ onOpenChange }) => {
   })
   const { isValid } = form.formState
 
+  const handleClose = () => {
+    onOpenChange?.(false)
+  }
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { success, message } = await createFeedback(values)
     if (success) {
       toast.success(<ToastBody title="Success" message="Feedback created." />)
-      onOpenChange(false)
+      form.reset()
+      handleClose()
     } else {
       toast.error(
         <ToastBody title="Error" message="Feedback creation failed." />
@@ -73,7 +78,7 @@ const FeedbackForm: FC<FeedbackFormProps> = ({ onOpenChange }) => {
       <Link
         href="/feedback"
         className="flex flex-col items-stretch"
-        onClick={() => onOpenChange(false)}
+        onClick={handleClose}
       >
         <Button variant="ghost">See all feedback</Button>
       </Link>
