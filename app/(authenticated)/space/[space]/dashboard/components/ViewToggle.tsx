@@ -3,8 +3,8 @@ import React from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Title from "@/components/uplift/title"
 
+import CreateExperimentButton from "./CreateExperimentButton"
 import GridView from "./GridView"
-import NewExperimentButton from "./NewExperimentButton"
 import TableView from "./TableView"
 
 const ViewToggle = () => {
@@ -15,7 +15,7 @@ const ViewToggle = () => {
           <div className="flex justify-between items-center">
             <Title>Experiments</Title>
             <div className="flex items-center gap-2">
-              <NewExperimentButton />
+              <CreateExperimentButton />
               <TabsList>
                 <TabsTrigger value="promode">Pro Mode</TabsTrigger>
                 <TabsTrigger value="quickview">Quick View</TabsTrigger>

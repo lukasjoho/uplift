@@ -43,7 +43,7 @@ import ToastBody from "@/components/uplift/ToastBody"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 import FileInput from "@/app/(authenticated)/space/[space]/dashboard/components/CreateExperimentForm/FileInput"
-import { revalidateServerPath } from "@/app/actions"
+import { deleteExperiment, revalidateServerPath } from "@/app/actions"
 
 import ImageUploadField from "./ImageUploadField"
 import RefineHypothesis from "./RefineHypothesis"
@@ -58,6 +58,15 @@ const createExperiment = async (values: any) => {
     },
     method: "POST",
   })
+  return res
+}
+
+const updateExperiment = async (data: any) => {
+  const res = await fetch(`/api/experiments/${data.id}`, {
+    body: JSON.stringify(data),
+    method: "PUT",
+  })
+  revalidateServerPath("space/uplift/dashboard")
   return res
 }
 
@@ -95,7 +104,7 @@ export const HypothesisContext = createContext({
   setAnswer: (answer: any) => {},
 })
 
-const CreateExperimentForm = ({ experiment, handleClose }: any) => {
+const CreateExperimentForm = ({ experiment }: any) => {
   const [, setIsOpen]: any = useContext(ModalContext)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -143,11 +152,21 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
         values[key] = null
       }
     })
-    const res = await createExperiment(values)
+    let res
+    let successMessage
+
+    if (experiment) {
+      res = await updateExperiment({ id: experiment.id, ...values })
+      successMessage = "Experiment updated."
+    } else {
+      res = await createExperiment(values)
+      successMessage = "Experiment created."
+    }
+
     const data = await res.json()
     if (res.ok) {
-      toast.success(<ToastBody title="Success" message="Experiment created." />)
-      revalidateServerPath("space/finn/dashboard")
+      toast.success(<ToastBody title="Success" message={successMessage} />)
+      revalidateServerPath("space/uplift/dashboard")
       setIsOpen(false)
     } else {
       toast.error(<ToastBody title="Failed" message={data.message} />)
@@ -159,7 +178,6 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
     <>
       <HypothesisContext.Provider value={{ answer, setAnswer }}>
         <Form {...form}>
-          {/* <pre>{JSON.stringify(form, null, 2)}</pre> */}
           <div className="grid grid-cols-4 gap-12">
             <div className="col-span-2">
               <FormField
@@ -416,23 +434,31 @@ const CreateExperimentForm = ({ experiment, handleClose }: any) => {
             </div>
           </div>
 
-          <div className="mt-12">
-            <Button
-              className="m-0"
-              onClick={form.handleSubmit(onSubmit)}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating...
-                </>
-              ) : experiment ? (
-                "Save"
-              ) : (
-                "Create"
-              )}
-            </Button>
+          <div className="mt-12 bg-green-500 flex justify-end">
+            {experiment && (
+              <>
+                <Button
+                  className="mr-auto"
+                  onClick={() => deleteExperiment(experiment.id)}
+                >
+                  Delete
+                </Button>
+                <Button
+                  onClick={form.handleSubmit(onSubmit)}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Updating..." : "Update"}
+                </Button>
+              </>
+            )}
+            {!experiment && (
+              <Button
+                onClick={form.handleSubmit(onSubmit)}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Creating..." : "Create"}
+              </Button>
+            )}
           </div>
         </Form>
       </HypothesisContext.Provider>

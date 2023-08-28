@@ -130,8 +130,8 @@ model Decision {
 
 model Experiment {
   id          String   @id @default(cuid())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime 
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime?
   name        String   @unique
   identifier  String   @unique
   hypothesis  String?

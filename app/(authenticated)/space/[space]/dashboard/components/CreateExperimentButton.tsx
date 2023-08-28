@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { FC } from "react"
 
 import { useWindowSize } from "@/lib/hooks"
 import { Button } from "@/components/ui/button"
@@ -13,7 +13,11 @@ import {
 
 import CreateExperimentForm from "./CreateExperimentForm"
 
-const NewExperimentButton = () => {
+interface CreateExperimentButtonProps {
+  label?: string
+}
+
+const CreateExperimentButton: FC<CreateExperimentButtonProps> = ({ label }) => {
   let size = useWindowSize()
 
   return (
@@ -21,7 +25,7 @@ const NewExperimentButton = () => {
       <ModalOpenButton>
         <Button variant="outline" size="sm">
           <Icons.pluscircle className="w-4 h-4" />
-          New
+          {label ?? "New"}
         </Button>
       </ModalOpenButton>
       <ModalContents title="Create Experiment" size={size}>
@@ -33,4 +37,4 @@ const NewExperimentButton = () => {
   )
 }
 
-export default NewExperimentButton
+export default CreateExperimentButton

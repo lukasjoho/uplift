@@ -1,9 +1,13 @@
 import React, { FC } from "react"
+import { TestTube2 } from "lucide-react"
+import { getServerSession } from "next-auth"
 
+import { authOptions, getAuthSession } from "@/lib/auth"
 import { formatDate } from "@/lib/helpers"
 import { prisma } from "@/lib/prisma"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import {
   Table,
@@ -15,70 +19,80 @@ import {
 } from "@/components/ui/table"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
+import { getExperiments } from "@/app/actions"
+
+import CreateExperimentButton from "./CreateExperimentButton"
 
 const TableView = async () => {
-  const experiments = await prisma.experiment.findMany({
-    include: {
-      decision: true,
-      country: true,
-      dri: true,
-    },
-  })
+  const experiments = await getExperiments()
   return (
-    <div>
-      <div className="border rounded-lg">
-        <Table>
-          <TableHeader>
-            <TableRow className="text-sm">
-              <TableHead className="w-[100px]">Name</TableHead>
-              <TableHead>Decision</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Country</TableHead>
-              <TableHead>Start Date</TableHead>
-              <TableHead>End Date</TableHead>
-              <TableHead>DRI</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {experiments.map((experiment: any) => {
-              const {
-                id,
-                name,
-                identifier,
-                decision,
-                country,
-                isEnabled,
-                startDate,
-                endDate,
-                dri,
-              } = experiment
-              return (
-                <TableRow key={id}>
-                  <TableCell>
-                    <NameCell name={name} identifier={identifier} />
-                  </TableCell>
-                  <TableCell>
-                    <DecisionCell decision={decision} />
-                  </TableCell>
-                  <TableCell>
-                    <StatusCell isEnabled={isEnabled} />
-                  </TableCell>
-                  <TableCell>{country?.label}</TableCell>
-                  <TableCell>{formatDate(startDate)}</TableCell>
-                  <TableCell>{formatDate(endDate)}</TableCell>
-                  <TableCell>{dri?.email}</TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </div>
-      {/* <pre>{JSON.stringify(experiments, null, 2)}</pre> */}
+    <div className="border rounded-lg">
+      <Table>
+        <TableHeader>
+          <TableRow className="text-sm">
+            <TableHead className="w-[100px]">Name</TableHead>
+            <TableHead>Decision</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Country</TableHead>
+            <TableHead>Start Date</TableHead>
+            <TableHead>End Date</TableHead>
+            <TableHead>DRI</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {experiments.map((experiment: any) => {
+            const {
+              id,
+              name,
+              identifier,
+              decision,
+              country,
+              isEnabled,
+              startDate,
+              endDate,
+              dri,
+            } = experiment
+            return (
+              <TableRow key={id}>
+                <TableCell>
+                  <NameCell name={name} identifier={identifier} />
+                </TableCell>
+                <TableCell>
+                  <DecisionCell decision={decision} />
+                </TableCell>
+                <TableCell>
+                  <StatusCell isEnabled={isEnabled} />
+                </TableCell>
+                <TableCell>{country?.label}</TableCell>
+                <TableCell>{formatDate(startDate)}</TableCell>
+                <TableCell>{formatDate(endDate)}</TableCell>
+                <TableCell>{dri?.email}</TableCell>
+              </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
+      {experiments.length < 1 && (
+        <div className="flex flex-col items-center w-full py-32">
+          <CreateFirstExperimentCTA />
+        </div>
+      )}
     </div>
   )
 }
 
 export default TableView
+
+export const CreateFirstExperimentCTA = () => {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <TestTube2 />
+      <Text className="text-muted-foreground">No experiments created.</Text>
+      <CreateExperimentButton label="Create Experiment" />
+    </div>
+  )
+}
 
 interface NameCellProps {
   name: string

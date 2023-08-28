@@ -1,14 +1,23 @@
-import React from "react"
+import React, { FC } from "react"
 import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 import Title from "@/components/uplift/title"
+import { getExperiments } from "@/app/actions"
+
+import { CreateFirstExperimentCTA } from "./TableView"
 
 const GridView = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/experiments`)
-  const experiments = await res.json()
+  const experiments = await getExperiments()
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {experiments.length < 1 && (
+        <>
+          <EmptyGridItem showCTA />
+          <EmptyGridItem className="opacity-80" />
+          <EmptyGridItem className="opacity-40" />
+        </>
+      )}
       {experiments.map((experiment: any) => {
         return <GridItem experiment={experiment} />
       })}
@@ -30,6 +39,23 @@ function getInitials(name: string) {
   }
 
   return initials
+}
+interface EmptyGridItemProps extends React.HTMLProps<HTMLDivElement> {
+  showCTA?: boolean
+}
+
+const EmptyGridItem: FC<EmptyGridItemProps> = (props) => {
+  const { showCTA } = props
+  return (
+    <div
+      className={cn(
+        "cursor-pointer aspect-video rounded-lg border border-dashed flex items-center justify-center",
+        props.className
+      )}
+    >
+      {showCTA && <CreateFirstExperimentCTA />}
+    </div>
+  )
 }
 
 const GridItem = ({ experiment }: any) => {
