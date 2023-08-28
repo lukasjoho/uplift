@@ -1,5 +1,4 @@
 import React from "react"
-import { ListTodo } from "lucide-react"
 import { getServerSession } from "next-auth"
 
 import { authOptions } from "@/lib/auth"
@@ -7,11 +6,6 @@ import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/icons"
-import {
-  Modal,
-  ModalContents,
-  ModalOpenButton,
-} from "@/components/uplift/GlobalModal/GlobalModal"
 import Text from "@/components/uplift/text"
 
 import CreateSpaceModal from "./CreateSpaceModal"
