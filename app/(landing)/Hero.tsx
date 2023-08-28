@@ -23,10 +23,10 @@ const Hero = () => {
             relentlessly
           </h1>
           <p className="max-w-[700px] text-lg text-muted-foreground sm:text-xl text-center">
-            Uplift is an experimentation platform streamlining the management
-            and deployment of your experiments. Accelerate your growth by
-            bringing experiment visibility, data focus and hypothesis-centricity
-            to your team.
+            Uplift is an experimentation platform for modern product and
+            engineering teams streamlining the management and deployment of your
+            experiments. Accelerate your growth by bringing experiment
+            visibility, data focus and hypothesis-centricity to your team.
           </p>
         </div>
         <div className="flex gap-2">
