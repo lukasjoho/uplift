@@ -17,11 +17,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  Modal,
+  ModalContents,
+  ModalOpenButton,
+} from "@/components/uplift/GlobalModal/GlobalModal"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
 import { getExperiments } from "@/app/actions"
 
 import CreateExperimentButton from "./CreateExperimentButton"
+import CreateExperimentForm from "./CreateExperimentForm"
 
 const TableView = async () => {
   const experiments = await getExperiments()
@@ -54,21 +60,28 @@ const TableView = async () => {
               dri,
             } = experiment
             return (
-              <TableRow key={id}>
-                <TableCell>
-                  <NameCell name={name} identifier={identifier} />
-                </TableCell>
-                <TableCell>
-                  <DecisionCell decision={decision} />
-                </TableCell>
-                <TableCell>
-                  <StatusCell isEnabled={isEnabled} />
-                </TableCell>
-                <TableCell>{country?.label}</TableCell>
-                <TableCell>{formatDate(startDate)}</TableCell>
-                <TableCell>{formatDate(endDate)}</TableCell>
-                <TableCell>{dri?.email}</TableCell>
-              </TableRow>
+              <Modal>
+                <ModalOpenButton>
+                  <TableRow key={id}>
+                    <TableCell>
+                      <NameCell name={name} identifier={identifier} />
+                    </TableCell>
+                    <TableCell>
+                      <DecisionCell decision={decision} />
+                    </TableCell>
+                    <TableCell>
+                      <StatusCell isEnabled={isEnabled} />
+                    </TableCell>
+                    <TableCell>{country?.label}</TableCell>
+                    <TableCell>{formatDate(startDate)}</TableCell>
+                    <TableCell>{formatDate(endDate)}</TableCell>
+                    <TableCell>{dri?.email}</TableCell>
+                  </TableRow>
+                </ModalOpenButton>
+                <ModalContents title={experiment.name} maxSize="xl">
+                  <CreateExperimentForm experiment={experiment} />
+                </ModalContents>
+              </Modal>
             )
           })}
         </TableBody>
