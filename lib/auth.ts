@@ -44,7 +44,7 @@ export const authOptions: NextAuthOptions = {
           },
         },
       })
-      console.log("CONNECTED USER", connectedUser)
+      // console.log("CONNECTED USER", connectedUser)
 
       return session
     },

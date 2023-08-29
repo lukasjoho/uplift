@@ -12,16 +12,6 @@ import SpaceItem from "./components/SpaceItem"
 import SpacesManager from "./components/SpacesManager"
 
 const SpacesPage = async () => {
-  const session = await getServerSession(authOptions)
-  const user = await prisma.user.findFirst({
-    where: {
-      email: "lukas.hoppe@finn.com",
-    },
-    include: {
-      spaces: true,
-    },
-  })
-
   return (
     <div className="grow flex items-center justify-center">
       {/* @ts-expect-error */}
