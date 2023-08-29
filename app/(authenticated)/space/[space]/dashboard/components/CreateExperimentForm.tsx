@@ -114,8 +114,9 @@ const CreateExperimentForm = ({ experiment }: any) => {
       name: experiment?.name || "",
       identifier: experiment?.identifier || "exp-",
       hypothesis: experiment?.hypothesis || "",
-      startDate: experiment?.startDate || new Date().toISOString(),
-      endDate: experiment?.endDate || "",
+      startDate:
+        experiment?.startDate.toISOString() || new Date().toISOString(),
+      endDate: experiment?.endDate.toISOString() || "",
       cover: experiment?.cover || "",
       dashboardUrl: experiment?.dashboardUrl || "",
       deployUrl: experiment?.deployUrl || "",
@@ -177,6 +178,7 @@ const CreateExperimentForm = ({ experiment }: any) => {
   return (
     <>
       <HypothesisContext.Provider value={{ answer, setAnswer }}>
+        <pre>{JSON.stringify(formValues.startDate, null, 2)}</pre>
         <Form {...form}>
           <div className="grid grid-cols-4 gap-12">
             <div className="col-span-2">
@@ -286,12 +288,23 @@ const CreateExperimentForm = ({ experiment }: any) => {
                         <Calendar
                           mode="single"
                           selected={new Date(field.value)}
-                          onSelect={(date) => {
-                            console.log("SEL DATE", date)
-                            const dateString = date?.toISOString()
-                            console.log("SEL STR DATE", dateString)
+                          onSelect={(date: any) => {
+                            console.log("Selected Date: ", date)
+                            date.setHours(12, 0, 0, 0)
+                            const utcDateWithNoon = new Date(
+                              Date.UTC(
+                                date.getFullYear(),
+                                date.getMonth(),
+                                date.getDate(),
+                                12,
+                                0,
+                                0
+                              )
+                            )
+                            const isoString = utcDateWithNoon.toISOString()
 
-                            field.onChange(dateString)
+                            field.onChange(isoString)
+                            console.log("Selected Date2: ", isoString)
                           }}
                           // disabled={(date) =>
                           //   date < new Date() || date < new Date("1900-01-01")

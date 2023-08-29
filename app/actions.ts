@@ -67,14 +67,13 @@ export async function updateExperiment(data: any) {
         ...data,
       },
     })
+    revalidatePath("/space/uplift/dashboard")
     return {
       success: true,
-      message: "Experiment created.",
     }
   } catch (error: unknown) {
     return {
       success: false,
-      message: "Failed to create experiment.",
     }
   }
 }

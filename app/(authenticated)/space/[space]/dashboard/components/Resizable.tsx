@@ -1,15 +1,18 @@
 "use client"
 
-import React, { FC, useCallback, useState } from "react"
-import { is } from "date-fns/locale"
+import React, { FC, useCallback, useEffect, useState } from "react"
 import { motion, useMotionValue } from "framer-motion"
+import { toast } from "react-hot-toast"
 
+import { formatDate, getDateDiffInDays } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
 import {
   Modal,
   ModalContents,
   ModalOpenButton,
 } from "@/components/uplift/GlobalModal/GlobalModal"
+import ToastBody from "@/components/uplift/ToastBody"
+import { updateExperiment } from "@/app/actions"
 
 import CreateExperimentForm from "./CreateExperimentForm"
 import { TIMELINE_SETTINGS } from "./Timeline/constants"
@@ -20,11 +23,14 @@ interface SwimLaneItemProps {
   experiment?: any
 }
 
-const Resizable: FC<SwimLaneItemProps> = ({
-  days = 0,
-  daysFromStart = 0,
-  experiment,
-}) => {
+const Resizable: FC<SwimLaneItemProps> = ({ experiment }) => {
+  console.log("Component rendering")
+  const startDate: any = new Date(experiment.startDate)
+  const endDate: any = new Date(experiment.endDate)
+  const days = getDateDiffInDays(startDate, endDate)
+  const daysFromStart =
+    getDateDiffInDays("2023-01-01T16:21:12.256Z", startDate) + 1
+
   const [isDragging, setIsDragging] = useState(false)
   const mWidth = useMotionValue(TIMELINE_SETTINGS.UNIT_WIDTH * days)
   const mPos = useMotionValue(
@@ -32,6 +38,28 @@ const Resizable: FC<SwimLaneItemProps> = ({
       9 -
       TIMELINE_SETTINGS.DAY_WIDTH / 2
   )
+  useEffect(() => {
+    mWidth.set(TIMELINE_SETTINGS.UNIT_WIDTH * days)
+  }, [days])
+  useEffect(() => {
+    mPos.set(
+      daysFromStart * TIMELINE_SETTINGS.UNIT_WIDTH -
+        9 -
+        TIMELINE_SETTINGS.DAY_WIDTH / 2
+    )
+  }, [daysFromStart])
+
+  function debounce<T extends (...args: any[]) => any>(
+    func: T,
+    delay: number
+  ): (...funcArgs: Parameters<T>) => void {
+    let inDebounce: NodeJS.Timeout | undefined
+
+    return function (this: ThisParameterType<T>, ...args: Parameters<T>): void {
+      clearTimeout(inDebounce)
+      inDebounce = setTimeout(() => func.apply(this, args), delay)
+    }
+  }
 
   const handleDrag = useCallback(
     (event: any, info: any, position: "left" | "center" | "right") => {
@@ -80,8 +108,7 @@ const Resizable: FC<SwimLaneItemProps> = ({
     return snappedPos
   }
 
-  const determineStage = (experiment: any) => {
-    const { startDate, endDate } = experiment
+  const determineStage = (startDate: string, endDate: string) => {
     if (new Date(endDate) < new Date()) {
       return "completed"
     }
@@ -93,7 +120,8 @@ const Resizable: FC<SwimLaneItemProps> = ({
     }
   }
 
-  const stage = determineStage(experiment)
+  const initStage = determineStage(experiment.startDate, experiment.endDate)
+  const [stage, setStage] = useState(initStage)
   const handleClick = (e: any) => {
     console.log("clicked")
     if (isDragging) {
@@ -102,6 +130,16 @@ const Resizable: FC<SwimLaneItemProps> = ({
       return
     }
   }
+
+  const getDateFromPx = (px: number) => {
+    const days = px / TIMELINE_SETTINGS.UNIT_WIDTH
+    const timelineStart = new Date("2023-01-01T16:21:12.256Z")
+    const newDate = new Date(
+      timelineStart.setDate(timelineStart.getDate() + days)
+    )
+    return newDate.toISOString()
+  }
+
   return (
     <div className="flex">
       <Modal>
@@ -130,12 +168,36 @@ const Resizable: FC<SwimLaneItemProps> = ({
             dragMomentum={false}
             onClick={handleClick}
             onDrag={(event, info) => handleDrag(event, info, "center")}
-            onDragEnd={(event, info) => {
+            onDragEnd={async (event, info) => {
               // const newConvertedPos = convertToNearestMultiple(
               //   mPos.get() + info.delta.x
               // )
               // mPos.set(newConvertedPos)
-              snapPosition(mPos.get() + info.delta.x)
+              const snappedPos = snapPosition(mPos.get() + info.delta.x)
+              const newDate = getDateFromPx(snappedPos)
+              const newEndDate = getDateFromPx(snappedPos + mWidth.get())
+              const { success } = await updateExperiment({
+                id: experiment.id,
+                startDate: newDate,
+                endDate: newEndDate,
+              })
+              if (success) {
+                toast.success(
+                  <ToastBody
+                    title={`Date updated to ${formatDate(
+                      newDate
+                    )} - ${formatDate(newEndDate)}`}
+                  />
+                )
+              } else {
+                toast.success(
+                  <ToastBody
+                    title={`Error`}
+                    message="Experiment could not be updated."
+                  />
+                )
+              }
+              setStage(determineStage(newDate, newEndDate))
               setIsDragging(false)
             }}
             onDragStart={() => {
@@ -149,12 +211,34 @@ const Resizable: FC<SwimLaneItemProps> = ({
               onDrag={(event: any, info: any) =>
                 handleDrag(event, info, "left")
               }
-              onDragEnd={(event: any, info: any) => {
+              onDragEnd={async (event: any, info: any) => {
                 const newConvertedWidth = convertToNearestMultiple(
                   mWidth.get() + info.delta.x
                 )
                 mWidth.set(newConvertedWidth)
-                snapPosition(mPos.get() + info.delta.x)
+                const snappedPos = snapPosition(mPos.get() + info.delta.x)
+                const newDate = getDateFromPx(snappedPos)
+                const { success } = await updateExperiment({
+                  id: experiment.id,
+                  startDate: newDate,
+                })
+                if (success) {
+                  toast.success(
+                    <ToastBody
+                      title={`Date updated to ${formatDate(newDate)}`}
+                    />
+                  )
+                } else {
+                  toast.success(
+                    <ToastBody
+                      title={`Error`}
+                      message="Experiment could not be updated."
+                    />
+                  )
+                }
+                console.log("SUCCESS: ", success)
+                setStage(determineStage(newDate, experiment.endDate))
+
                 setTimeout(() => {
                   setIsDragging(false)
                 }, 150)
@@ -170,11 +254,31 @@ const Resizable: FC<SwimLaneItemProps> = ({
               onDrag={(event: any, info: any) =>
                 handleDrag(event, info, "right")
               }
-              onDragEnd={(event: any, info: any) => {
+              onDragEnd={async (event: any, info: any) => {
                 const newConvertedWidth = convertToNearestMultiple(
                   mWidth.get() + info.delta.x
                 )
                 mWidth.set(newConvertedWidth)
+                const newDate = getDateFromPx(mPos.get() + newConvertedWidth)
+                const { success } = await updateExperiment({
+                  id: experiment.id,
+                  endDate: newDate,
+                })
+                if (success) {
+                  toast.success(
+                    <ToastBody
+                      title={`Date updated to ${formatDate(newDate)}`}
+                    />
+                  )
+                } else {
+                  toast.success(
+                    <ToastBody
+                      title={`Error`}
+                      message="Experiment could not be updated."
+                    />
+                  )
+                }
+                setStage(determineStage(experiment.startDate, newDate))
                 setIsDragging(false)
               }}
               onDragStart={() => {

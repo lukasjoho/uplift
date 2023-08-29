@@ -8,6 +8,7 @@ import {
   ModalOpenButton,
 } from "@/components/uplift/GlobalModal/GlobalModal"
 import Text from "@/components/uplift/text"
+import { getExperiments } from "@/app/actions"
 
 import Resizable from "./Resizable"
 import TimelineClientWrapper from "./Timeline/TimelineClientWrapper"
@@ -93,26 +94,6 @@ const createSwimlanes = (experiments: any) => {
   return swimlanes
 }
 
-// function isOverlap(experiments: any, newExperiment: any) {
-//   for (const experiment of experiments) {
-//     if (
-//       (experiment.startDate.slice(0, 10) <=
-//         newExperiment.endDate?.slice(0, 10) &&
-//         experiment.endDate?.slice(0, 10) >=
-//           newExperiment.startDate.slice(0, 10)) ||
-//       (newExperiment.startDate.slice(0, 10) <=
-//         experiment.endDate?.slice(0, 10) &&
-//         newExperiment.endDate?.slice(0, 10) >=
-//           experiment.startDate.slice(0, 10)) ||
-//       newExperiment.startDate.slice(0, 10) == experiment.startDate.slice(0, 10)
-//     ) {
-//       return true // Overlapping date ranges
-//     }
-//   }
-
-//   return false // No overlap
-// }
-
 function isOverlap(experiments: any, newExperiment: any) {
   const newStartDate = new Date(newExperiment.startDate)
   const newEndDate = new Date(newExperiment.endDate)
@@ -134,38 +115,20 @@ function isOverlap(experiments: any, newExperiment: any) {
 }
 
 const Timeline = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}/api/experiments`)
-  const experiments = await res.json()
+  const experiments = await getExperiments()
   const swimlanes = clusterExperiments(experiments)
-
   return (
     <>
       <TimelineClientWrapper>
-        {/* <Resizable /> */}
         <div className="inline-block">
-          <div>
-            <TimelineHeader />
-          </div>
+          <TimelineHeader />
           <div id="swimlanes">
-            <div className="flex flex-col gap-2 pb-2 pt-2 border-t">
+            <div className="flex flex-col gap-2 pb-2 pt-2 min-h-[200px]">
               {swimlanes.map((swimlane: any) => {
                 return (
                   <div className="relative h-10 w-full">
                     {swimlane.map((experiment: any) => {
-                      const startDate: any = new Date(experiment.startDate)
-                      const endDate: any = new Date(experiment.endDate)
-                      const days = getDateDiffInDays(startDate, endDate)
-                      const daysFromStart = getDateDiffInDays(
-                        "2023-01-01T16:21:12.256Z",
-                        startDate
-                      )
-                      return (
-                        <Resizable
-                          days={days}
-                          daysFromStart={daysFromStart}
-                          experiment={experiment}
-                        />
-                      )
+                      return <Resizable experiment={experiment} />
                     })}
                   </div>
                 )
@@ -219,7 +182,7 @@ const TimelineHeader = () => {
   const months = groupDatesByMonth(dates)
 
   return (
-    <div className="flex gap-[9px]  ">
+    <div className="flex gap-[9px] border-b">
       {months.map((month: any) => {
         return (
           <div>
