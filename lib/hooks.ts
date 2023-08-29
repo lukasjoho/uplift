@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 
 import { isServer } from "./utils"
 
@@ -38,4 +38,18 @@ export function useWindowSize() {
     return
   }
   return windowSize
+}
+
+export const useLocalStorage = (key: string, initialValue: any) => {
+  const [value, setValue] = useState(
+    JSON.parse(getLocalStorage(key, initialValue))
+  )
+
+  function getLocalStorage(key: string, initialValue: any) {
+    return localStorage.getItem(key) || initialValue
+  }
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value))
+  }, [value, key])
+  return [value, setValue]
 }
