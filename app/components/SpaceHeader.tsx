@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ListTodo } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/icons"
 import { AuthLink } from "@/components/layout/AuthLink"
 import {
   Modal,
@@ -10,6 +11,7 @@ import {
   ModalOpenButton,
 } from "@/components/uplift/GlobalModal/GlobalModal"
 
+import CreateExperimentForm from "../(app)/space/[space]/dashboard/components/CreateExperimentForm"
 import AppMenuItem from "./AppMenuItem"
 import Container from "./Container"
 import SpaceDropdown from "./SpaceDropdown"
@@ -41,16 +43,14 @@ const SpaceHeader = async () => {
             <Modal>
               <ModalOpenButton>
                 <Button size="xs" variant="outline">
-                  <ListTodo className="w-4 h-4" />
+                  <Icons.pluscircle className="w-3 h-3" />
+                  New
                 </Button>
               </ModalOpenButton>
-              <ModalContents title="Open Items">
-                <div>Hello</div>
+              <ModalContents>
+                <CreateExperimentForm />
               </ModalContents>
             </Modal>
-            <Button size="xs" variant="outline">
-              New
-            </Button>
           </div>
         </div>
       </Container>
