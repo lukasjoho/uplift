@@ -19,7 +19,7 @@ const UnauthorizedPage = () => {
 
 export default UnauthorizedPage
 
-export function AlertDestructive() {
+const AlertDestructive = () => {
   return (
     <Alert variant="destructive" className="w-auto">
       <AlertCircle className="h-4 w-4" />
