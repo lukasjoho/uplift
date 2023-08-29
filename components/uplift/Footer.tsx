@@ -22,7 +22,7 @@ const Footer = () => {
               </div>
             </div>
             <div className="col-span-1">
-              <List title="Product">
+              <List title="Site">
                 <ListItem href="/">Home</ListItem>
                 <ListItem href="/releases/launched">Releases</ListItem>
                 <ListItem href="/blog">Blog</ListItem>
@@ -31,7 +31,7 @@ const Footer = () => {
               </List>
             </div>
             <div className="col-span-1">
-              <List title="Product">
+              <List title="Application">
                 <ListItem href="/">Dashboard</ListItem>
                 <ListItem href="/developers">Developers</ListItem>
               </List>
