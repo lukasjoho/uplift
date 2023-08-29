@@ -24,11 +24,15 @@ const TimelineClientWrapper = ({ children }: any) => {
   }, [])
 
   return (
-    <div
-      className="overflow-scroll w-full border rounded-xl scroll-smooth"
-      id="timelinecontainer"
-    >
-      {children}
+    <div className="w-full relative overflow-hidden border rounded-xl">
+      <div
+        className="overflow-scroll w-full scroll-smooth"
+        id="timelinecontainer"
+      >
+        {children}
+      </div>
+      <div className="absolute h-full w-32 bg-gradient-to-r from-background/80 to-transparent left-0 top-0" />
+      <div className="absolute h-full w-32 bg-gradient-to-l from-background/80 to-transparent right-0 top-0" />
     </div>
   )
 }
