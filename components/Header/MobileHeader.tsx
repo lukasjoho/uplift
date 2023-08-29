@@ -21,7 +21,7 @@ const MobileHeader: FC<MobileHeaderProps> = ({ avatarOrLogin }) => {
   return (
     <Provider value={{ isOpen, toggleIsOpen }}>
       <Container>
-        <div className="flex h-10 items-center justify-between ">
+        <div className="flex h-14 items-center justify-between ">
           <ToggleMenu />
           <Link href="/">
             <Icons.logoRaw className="h-6 w-6" />
@@ -82,11 +82,8 @@ const MobileMenu = () => {
             <Container>
               <nav>
                 <ul>
-                  <div className="py-4">
+                  <div className="py-2">
                     <MobileMenuItem label="Space" />
-                  </div>
-                  <Separator />
-                  <div className="py-4">
                     <MobileMenuItem label="Releases" />
                     <MobileMenuItem label="Blog" />
                   </div>
@@ -101,5 +98,5 @@ const MobileMenu = () => {
 }
 
 const MobileMenuItem = ({ label }: any) => {
-  return <li className="text-2xl py-2 font-bold">{label}</li>
+  return <li className="text-base py-1 font-semibold">{label}</li>
 }

@@ -17,17 +17,25 @@ import SpacesDropdown from "./SpacesDropdown"
 
 const SpaceHeader = async () => {
   return (
-    <div className="w-full sticky z-40 top-[65px] border-b bg-background">
+    <div className="w-full sticky z-30 top-[57px] md:top-[65px] border-b bg-background">
       <Container>
         <div className="flex justify-between items-center">
           <div className="flex gap-4 items-center h-10">
             {/* @ts-expect-error */}
             <SpacesDropdown>Current space</SpacesDropdown>
             <AuthLink href="/dashboard">
-              <AppMenuItem href="dashboard" label="Dashboard" />
+              <AppMenuItem
+                href="dashboard"
+                label="Dashboard"
+                mobileLabel="Dash"
+              />
             </AuthLink>
             <AuthLink href="/experiment-api">
-              <AppMenuItem href="experiment-api" label="Developers" />
+              <AppMenuItem
+                href="experiment-api"
+                label="Developers"
+                mobileLabel="Dev"
+              />
             </AuthLink>
           </div>
           <div className="flex items-center gap-2">
