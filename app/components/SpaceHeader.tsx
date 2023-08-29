@@ -1,10 +1,9 @@
 import React from "react"
 import Link from "next/link"
 import { ListTodo } from "lucide-react"
-import { getServerSession } from "next-auth"
 
-import { authOptions } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
+import { AuthLink } from "@/components/layout/AuthLink"
 import {
   Modal,
   ModalContents,
@@ -60,23 +59,3 @@ const SpaceHeader = async () => {
 }
 
 export default SpaceHeader
-
-interface AuthLinkProps {
-  href: string
-  children: React.ReactNode
-}
-
-// @ts-ignore
-export const AuthLink: FC<AuthLinkProps> = async ({ children, href }) => {
-  const session = await getServerSession(authOptions)
-  return (
-    <>
-      <Link
-        // @ts-ignore
-        href={`/space/${session?.user?.currentSpace?.slug}${href}`}
-      >
-        {children}
-      </Link>
-    </>
-  )
-}
