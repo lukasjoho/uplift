@@ -13,7 +13,7 @@ import {
 
 import AppMenuItem from "./AppMenuItem"
 import Container from "./Container"
-import SpacesDropdown from "./SpacesDropdown"
+import SpaceDropdown from "./SpaceDropdown"
 
 const SpaceHeader = async () => {
   return (
@@ -22,7 +22,7 @@ const SpaceHeader = async () => {
         <div className="flex justify-between items-center">
           <div className="flex gap-4 items-center h-10">
             {/* @ts-expect-error */}
-            <SpacesDropdown>Current space</SpacesDropdown>
+            <SpaceDropdown />
             <AuthLink href="/dashboard">
               <AppMenuItem
                 href="dashboard"

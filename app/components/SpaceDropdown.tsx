@@ -26,7 +26,7 @@ import CreateSpaceModal from "../(app)/spaces/components/CreateSpaceModal"
 import { AvatarDropdown } from "./AvatarDropdown"
 import SpacesDropdownItem from "./SpacesDropdownItem"
 
-const SpacesDropdown = async ({ children }: any) => {
+const SpaceDropdown = async ({ children }: any) => {
   const session = await getServerSession(authOptions)
   const user = await prisma.user.findFirst({
     where: {
@@ -86,4 +86,4 @@ const SpacesDropdown = async ({ children }: any) => {
   )
 }
 
-export default SpacesDropdown
+export default SpaceDropdown
