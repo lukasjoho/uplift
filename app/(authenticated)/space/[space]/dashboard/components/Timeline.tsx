@@ -123,7 +123,7 @@ const Timeline = async () => {
         <div className="inline-block">
           <TimelineHeader />
           <div id="swimlanes">
-            <div className="flex flex-col gap-2 pb-2 pt-2 min-h-[200px]">
+            <div className="flex flex-col gap-2 pb-2 pt-2 min-h-[240px]">
               {swimlanes.map((swimlane: any) => {
                 return (
                   <div className="relative h-10 w-full">
