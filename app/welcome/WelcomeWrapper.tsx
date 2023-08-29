@@ -2,7 +2,7 @@
 
 import React, { createContext, useState } from "react"
 
-import SpacesManager from "../(authenticated)/spaces/components/SpacesManager"
+import SpacesManager from "../(app)/spaces/components/SpacesManager"
 import StageWrapper from "./StageWrapper"
 import WelcomeMessage from "./WelcomeMessage"
 

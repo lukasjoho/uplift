@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 
 import Title from "@/components/uplift/title"
-import { Sidebar } from "@/app/(authenticated)/space/[space]/settings/components/sidebar"
+import { Sidebar } from "@/app/(app)/space/[space]/settings/components/sidebar"
 import Container from "@/app/components/Container"
 
 interface SubMenuLayoutProps {

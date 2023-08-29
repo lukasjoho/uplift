@@ -21,8 +21,8 @@ import {
   ModalOpenButton,
 } from "@/components/uplift/GlobalModal/GlobalModal"
 
-import CreateSpaceForm from "../(authenticated)/spaces/components/CreateSpaceForm"
-import CreateSpaceModal from "../(authenticated)/spaces/components/CreateSpaceModal"
+import CreateSpaceForm from "../(app)/spaces/components/CreateSpaceForm"
+import CreateSpaceModal from "../(app)/spaces/components/CreateSpaceModal"
 import { AvatarDropdown } from "./AvatarDropdown"
 import SpacesDropdownItem from "./SpacesDropdownItem"
 

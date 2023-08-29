@@ -9,10 +9,11 @@ const SpacePage = async () => {
   // if (!session?.user?.hasCompletedSignUp) {
   //   redirect("/welcome")
   // }
-  if (!session?.user?.currentSpace?.slug) {
-    redirect("/spaces")
-  }
-  redirect(`/space/${session?.user?.currentSpace?.slug}/dashboard`)
+  // if (!session?.user?.currentSpace?.slug) {
+  //   redirect("/spaces")
+  // }
+  // redirect(`/space/${session?.user?.currentSpace?.slug}/dashboard`)
+  return <div>space page</div>
 }
 
 export default SpacePage

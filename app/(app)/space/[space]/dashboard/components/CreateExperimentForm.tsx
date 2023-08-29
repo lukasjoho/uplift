@@ -42,7 +42,7 @@ import { ModalContext } from "@/components/uplift/GlobalModal/GlobalModal"
 import ToastBody from "@/components/uplift/ToastBody"
 import Text from "@/components/uplift/text"
 import Title from "@/components/uplift/title"
-import FileInput from "@/app/(authenticated)/space/[space]/dashboard/components/CreateExperimentForm/FileInput"
+import FileInput from "@/app/(app)/space/[space]/dashboard/components/CreateExperimentForm/FileInput"
 import { deleteExperiment, revalidateServerPath } from "@/app/actions"
 
 import ImageUploadField from "./ImageUploadField"
