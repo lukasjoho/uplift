@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createExperiment } from "@/prisma/experiments"
 
+import { getAuthSession } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 export async function GET() {
@@ -16,10 +17,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const session = await getAuthSession()
     const json = await request.json()
 
     const experiment = await prisma.experiment.create({
-      data: json,
+      data: {
+        spaceId: session?.user.currentSpace.id,
+        ...json,
+      },
     })
 
     let json_response = {
