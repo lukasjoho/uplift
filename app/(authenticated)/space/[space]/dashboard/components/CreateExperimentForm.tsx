@@ -107,6 +107,11 @@ export const HypothesisContext = createContext({
 const CreateExperimentForm = ({ experiment }: any) => {
   const [, setIsOpen]: any = useContext(ModalContext)
 
+  const handleDelete = (id: string) => {
+    deleteExperiment(id)
+    setIsOpen(false)
+  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onBlur",
     resolver: zodResolver(formSchema),
@@ -178,7 +183,6 @@ const CreateExperimentForm = ({ experiment }: any) => {
   return (
     <>
       <HypothesisContext.Provider value={{ answer, setAnswer }}>
-        <pre>{JSON.stringify(formValues.startDate, null, 2)}</pre>
         <Form {...form}>
           <div className="grid grid-cols-4 gap-12">
             <div className="col-span-2">
@@ -452,7 +456,7 @@ const CreateExperimentForm = ({ experiment }: any) => {
               <>
                 <Button
                   className="mr-auto"
-                  onClick={() => deleteExperiment(experiment.id)}
+                  onClick={() => handleDelete(experiment.id)}
                 >
                   Delete
                 </Button>
