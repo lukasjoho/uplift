@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
-import { JWT, getToken } from "next-auth/jwt"
-import { withAuth } from "next-auth/middleware"
+import { getToken } from "next-auth/jwt"
 import { v4 as uuidv4 } from "uuid"
 
 export async function middleware(req: NextRequest) {
