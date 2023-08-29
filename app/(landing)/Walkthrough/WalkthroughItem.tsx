@@ -82,7 +82,7 @@ const WalkthroughItem: FC<WalkthroughItemProps> = ({
             </div>
             <div className="grid grid-cols-3 gap-6">
               {item.highlights?.map((highlight: any, index) => (
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center" key={index}>
                   <div className={`text-${solidColor}`}>{highlight.icon}</div>
                   <Text className="whitespace-nowrap">{highlight.label}</Text>
                 </div>

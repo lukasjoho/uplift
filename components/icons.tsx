@@ -23,7 +23,7 @@ export const Icons = {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <g clip-path="url(#clip0_132_496)">
+      <g clipPath="url(#clip0_132_496)">
         <rect
           x="86.9995"
           width="123.036"
@@ -35,7 +35,7 @@ export const Icons = {
         <path
           d="M41.5752 94.8227L86.6147 49.7832L131.654 94.8227M62.3626 115.225L86.6147 90.9732L110.867 115.225"
           stroke="url(#paint0_linear_132_496)"
-          stroke-width="15.3981"
+          strokeWidth="15.3981"
         />
       </g>
       <rect
@@ -46,7 +46,7 @@ export const Icons = {
         rx="11.3185"
         transform="rotate(45 86.9995 1.41421)"
         stroke="url(#paint1_linear_132_496)"
-        stroke-width="2"
+        strokeWidth="2"
       />
       <defs>
         <linearGradient
@@ -57,8 +57,8 @@ export const Icons = {
           y2="115.225"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#31DF6B" />
-          <stop offset="1" stop-color="#26BC58" />
+          <stop stopColor="#31DF6B" />
+          <stop offset="1" stopColor="#26BC58" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_132_496"
@@ -68,9 +68,9 @@ export const Icons = {
           y2="153.796"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#26BC58" stop-opacity="0" />
-          <stop offset="0.515625" stop-color="#31DF6B" />
-          <stop offset="1" stop-color="#26BC58" stop-opacity="0" />
+          <stop stopColor="#26BC58" stopOpacity="0" />
+          <stop offset="0.515625" stopColor="#31DF6B" />
+          <stop offset="1" stopColor="#26BC58" stopOpacity="0" />
         </linearGradient>
         <clipPath id="clip0_132_496">
           <rect
@@ -97,7 +97,7 @@ export const Icons = {
       <path
         d="M61 301.499L249.5 113L437.999 301.5M148 386.888L249.499 285.388L350.999 386.888"
         stroke="url(#paint0_linear_215_529)"
-        stroke-width="64.4443"
+        strokeWidth="64.4443"
       />
       <defs>
         <linearGradient
@@ -108,8 +108,8 @@ export const Icons = {
           y2="386.888"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#31DF6B" />
-          <stop offset="1" stop-color="#26BC58" />
+          <stop stopColor="#31DF6B" />
+          <stop offset="1" stopColor="#26BC58" />
         </linearGradient>
       </defs>
     </svg>
@@ -126,7 +126,7 @@ export const Icons = {
       <path
         d="M30 297.186L240.186 87L450.372 297.186M127.009 392.399L240.186 279.222L353.363 392.399"
         stroke="url(#paint0_linear_150_367)"
-        stroke-width="71.8585"
+        strokeWidth="71.8585"
       />
       <defs>
         <linearGradient
@@ -137,8 +137,8 @@ export const Icons = {
           y2="392.399"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#31DF6B" />
-          <stop offset="1" stop-color="#26BC58" />
+          <stop stopColor="#31DF6B" />
+          <stop offset="1" stopColor="#26BC58" />
         </linearGradient>
       </defs>
     </svg>
@@ -161,7 +161,7 @@ export const Icons = {
       <path
         d="M37.8676 338.247L306.727 69.3877L575.587 338.248M161.957 460.039L306.727 315.268L451.498 460.039"
         stroke="url(#paint0_linear_159_448)"
-        stroke-width="91.9179"
+        strokeWidth="91.9179"
       />
       <path
         d="M737.579 52.5628H819.681V278.751C819.681 301.95 827.474 321.343 843.061 336.93C858.648 352.517 877.134 360.31 898.521 360.31C919.907 360.31 938.394 352.517 953.98 336.93C969.93 321.343 977.904 301.95 977.904 278.751V52.5628H1059.46V278.751C1059.46 323.699 1044.06 361.397 1013.25 391.846C982.798 421.932 944.556 436.975 898.521 436.975C853.211 436.975 814.969 422.113 783.795 392.39C752.984 362.304 737.579 324.424 737.579 278.751V52.5628ZM1116.76 432.625V52.0191H1284.77C1322.11 52.0191 1353.82 65.0685 1379.92 91.1672C1406.38 117.266 1419.62 148.077 1419.62 183.6C1419.62 219.848 1406.57 250.478 1380.47 275.489C1354.73 300.138 1322.83 312.644 1284.77 313.006L1198.86 313.55V432.625H1116.76ZM1198.86 240.691L1279.33 240.147C1297.1 240.147 1311.78 234.347 1323.38 222.748C1334.98 211.149 1340.78 197.193 1340.78 180.881C1340.78 164.932 1334.98 151.702 1323.38 141.19C1312.14 130.678 1297.46 125.422 1279.33 125.422L1198.86 125.965V240.691ZM1466.15 432.625V52.0191H1547.7V357.048H1724.96V432.625H1466.15ZM1770.93 432.625V52.0191H1849.77V432.625H1770.93ZM2190.62 52.0191V127.597H1991.07V205.349H2168.87V278.751H1991.07V432.625H1909.51V52.0191H2190.62ZM2228.91 52.0191H2537.74V128.14H2426.28V432.625H2344.72V128.14H2228.91V52.0191Z"
@@ -176,8 +176,8 @@ export const Icons = {
           y2="460.039"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#31DF6B" />
-          <stop offset="1" stop-color="#26BC58" />
+          <stop stopColor="#31DF6B" />
+          <stop offset="1" stopColor="#26BC58" />
         </linearGradient>
       </defs>
     </svg>
@@ -190,9 +190,9 @@ export const Icons = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className="lucide lucide-rocket"
       {...props}
     >
@@ -210,9 +210,9 @@ export const Icons = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className="lucide lucide-calendar-clock"
       {...props}
     >
@@ -232,9 +232,9 @@ export const Icons = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={cn("lucide lucide-heart ", props.className)}
     >
       <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
@@ -248,9 +248,9 @@ export const Icons = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       {...props}
     >
       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -267,9 +267,9 @@ export const Icons = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className="lucide lucide-plus-circle"
       {...props}
     >
@@ -282,7 +282,7 @@ export const Icons = {
     <svg
       stroke="currentColor"
       fill="currentColor"
-      stroke-width="0"
+      strokeWidth="0"
       version="1.1"
       x="0px"
       y="0px"

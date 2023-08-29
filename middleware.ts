@@ -13,17 +13,19 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith(path)
   )
   const token = await getToken({ req })
-  if (matchesProtectedPaths) {
+  outerblock: if (matchesProtectedPaths) {
     if (!token) {
       const url = new URL(`/login`, req.url)
       url.searchParams.set("callbackUrl", encodeURI(req.url))
       response = NextResponse.redirect(url)
+      break outerblock
     }
     const allowedSpaceSlugs = token?.spaces.map((space) => space.slug) || []
     const spaceSlug = pathname.split("/")[2]
     if (
       !allowedSpaceSlugs.some((slug) => slug === spaceSlug) &&
-      !pathname.startsWith("/spaces")
+      !pathname.startsWith("/spaces") &&
+      pathname !== "/space"
     ) {
       const url = new URL(`/unauthorized`, req.url)
       response = NextResponse.rewrite(url)
@@ -37,35 +39,35 @@ export async function middleware(req: NextRequest) {
   return response
 }
 
-export default withAuth(
-  function middleware(req) {
-    const response = NextResponse.next()
-    if (!req.cookies.has("anonymousId")) {
-      const uniqueId = uuidv4()
-      response.cookies.set("anonymousId", uniqueId)
-    }
-    return response
-  },
-  {
-    callbacks: {
-      authorized: ({ req, token }: { req: any; token: any }) => {
-        const spaceSlug = req.nextUrl.pathname.split("/")[2]
+// export default withAuth(
+//   function middleware(req) {
+//     const response = NextResponse.next()
+//     if (!req.cookies.has("anonymousId")) {
+//       const uniqueId = uuidv4()
+//       response.cookies.set("anonymousId", uniqueId)
+//     }
+//     return response
+//   },
+//   {
+//     callbacks: {
+//       authorized: ({ req, token }: { req: any; token: any }) => {
+//         const spaceSlug = req.nextUrl.pathname.split("/")[2]
 
-        if (
-          req.nextUrl.pathname.startsWith("/space") ||
-          req.nextUrl.pathname.startsWith("/spaces")
-        ) {
-          if (token === null) return false
-          if (
-            req.nextUrl.pathname.startsWith("/space") &&
-            spaceSlug &&
-            spaceSlug !== token.currentSpace.slug
-          ) {
-            //redirect ...
-          }
-        }
-        return true
-      },
-    },
-  }
-)
+//         if (
+//           req.nextUrl.pathname.startsWith("/space") ||
+//           req.nextUrl.pathname.startsWith("/spaces")
+//         ) {
+//           if (token === null) return false
+//           if (
+//             req.nextUrl.pathname.startsWith("/space") &&
+//             spaceSlug &&
+//             spaceSlug !== token.currentSpace.slug
+//           ) {
+//             //redirect ...
+//           }
+//         }
+//         return true
+//       },
+//     },
+//   }
+// )

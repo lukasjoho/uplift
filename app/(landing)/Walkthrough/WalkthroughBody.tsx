@@ -23,6 +23,7 @@ const WalkthroughBody = () => {
           {items.map((item, idx) => {
             return (
               <WalkthroughItem
+                key={idx}
                 item={item}
                 orientation={idx % 2 === 0 ? "left" : "right"}
               />
