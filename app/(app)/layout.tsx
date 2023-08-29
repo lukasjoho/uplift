@@ -1,9 +1,10 @@
+import { FC } from "react"
+
 interface AppLayoutProps {
-  children: React.ReactNode
-  req: any
+  children: React.ReactNode | React.ReactNode[]
 }
 
-const AppLayout = ({ children, req }: AppLayoutProps) => {
+const AppLayout: FC<AppLayoutProps> = ({ children }) => {
   return <div className="flex flex-col grow">{children}</div>
 }
 
