@@ -30,9 +30,12 @@ export async function getExperiments() {
       decision: true,
       country: true,
       dri: true,
+      space: true,
     },
     where: {
-      spaceId: session?.user.currentSpace.id,
+      space: {
+        slug: "uplift",
+      },
     },
   })
   return experiments

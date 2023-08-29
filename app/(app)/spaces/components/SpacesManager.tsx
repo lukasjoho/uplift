@@ -1,7 +1,7 @@
 import React from "react"
 import { getServerSession } from "next-auth"
 
-import { authOptions } from "@/lib/auth"
+import { authOptions, getAuthSession } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,7 +12,7 @@ import CreateSpaceModal from "./CreateSpaceModal"
 import SpaceItem from "./SpaceItem"
 
 const SpacesManager = async () => {
-  const session = await getServerSession(authOptions)
+  const session = await getAuthSession()
   const user = await prisma.user.findFirst({
     where: {
       email: session?.user?.email,
@@ -34,7 +34,7 @@ const SpacesManager = async () => {
         <div className="space-y-4">
           <div className="space-y-4 mt-6 max-h-64 overflow-scroll">
             {user?.spaces.map((space) => {
-              return <SpaceItem space={space} user={session?.user} />
+              return <SpaceItem space={space} />
             })}
           </div>
           <div className="space-y-4">

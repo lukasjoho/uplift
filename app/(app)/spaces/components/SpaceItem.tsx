@@ -1,45 +1,30 @@
-"use client"
-
 import React, { FC } from "react"
-import { useRouter } from "next/navigation"
-import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 
-import { prisma } from "@/lib/prisma"
+import { Space } from "@/lib/types/general"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import Text from "@/components/uplift/text"
-import { assignCurrentSpace } from "@/app/actions"
 
 interface SpaceItemProps {
-  space: any
-  user: any
+  space: Space
 }
 
-const SpaceItem: FC<SpaceItemProps> = ({ space, user }) => {
-  const router = useRouter()
-  const handleSubmit = async (spaceId: string) => {
-    const updatedUser = await assignCurrentSpace(user, spaceId)
-    router.push(`/space/${updatedUser.currentSpace?.slug}/dashboard`)
-  }
-  const isActive = user.currentSpace?.id === space.id
+const SpaceItem: FC<SpaceItemProps> = ({ space }) => {
+  const { slug } = space
   return (
-    <Button
+    <Link
+      href={`/space/${slug}/dashboard`}
       className={cn(
-        "flex items-center justify-between h-20 w-full",
-        isActive && "border-foreground"
+        buttonVariants({ variant: "secondary" }),
+        "w-full flex gap-3 justify-start items-center py-8"
       )}
-      variant="outline"
-      onClick={() => handleSubmit(space.id)}
     >
-      <div className="flex gap-3 items-center">
-        <div className="rounded-xl bg-muted flex justify-center items-center aspect-square w-12">
-          {space.name[0]}
-        </div>
-        <Text className="text-xl font-bold">{space.name}</Text>
+      <div className="rounded-lg bg-muted flex justify-center items-center aspect-square w-10 border">
+        {space.name[0]}
       </div>
-
-      <ArrowRight />
-    </Button>
+      <Text className="text-lg">{space.name}</Text>
+    </Link>
   )
 }
 
