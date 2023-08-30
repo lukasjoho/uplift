@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ListTodo } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Icons } from "@/components/icons"
 import { AuthLink } from "@/components/layout/AuthLink"
 import {
@@ -22,7 +23,6 @@ const SpaceHeader = async () => {
       <Container>
         <div className="flex justify-between items-center">
           <div className="flex gap-4 items-center h-10">
-            {/* @ts-expect-error */}
             <SpaceDropdown />
             <AuthLink href="/dashboard">
               <AppMenuItem

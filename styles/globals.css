@@ -134,14 +134,14 @@
   transform: rotate(90deg);
   border-radius: 100%;
   border: 1px solid #26bc5840;
-  animation-name: pulse;
+  animation-name: pulseUplift1;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
   animation-duration: 2s;
   animation-timing-function: ease-in-out;
 }
 
-@keyframes pulse {
+@keyframes pulseUplift1 {
   0% {
     opacity: 0.8;
     transform: rotate(45deg) scale(1.2);

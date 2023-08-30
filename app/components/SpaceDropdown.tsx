@@ -1,10 +1,10 @@
-import React from "react"
-import Link from "next/link"
-import { ChevronsUpDown, LayoutDashboard, PlusCircle } from "lucide-react"
-import { getServerSession } from "next-auth"
+"use client"
 
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/prisma"
+import React from "react"
+import { useParams } from "next/navigation"
+import { ChevronsUpDown, LayoutDashboard, PlusCircle } from "lucide-react"
+import { useSession } from "next-auth/react"
+
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Modal,
   ModalContents,
@@ -22,36 +23,35 @@ import {
 } from "@/components/uplift/GlobalModal/GlobalModal"
 
 import CreateSpaceForm from "../(app)/spaces/components/CreateSpaceForm"
-import CreateSpaceModal from "../(app)/spaces/components/CreateSpaceModal"
-import { AvatarDropdown } from "./AvatarDropdown"
 import SpacesDropdownItem from "./SpacesDropdownItem"
 
-const SpaceDropdown = async ({ children }: any) => {
-  const session = await getServerSession(authOptions)
-  const user = await prisma.user.findFirst({
-    where: {
-      email: session?.user?.email,
-    },
-    include: {
-      spaces: true,
-    },
-  })
-
+const SpaceDropdown = () => {
+  const { data: session, status } = useSession()
+  const { space: activeSpaceSlug } = useParams()
+  const activeSpace: any = session?.user.spaces.filter(
+    (space: any) => space.slug === activeSpaceSlug
+  )[0]
   return (
     <div>
       <Modal>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              className="flex gap-2 items-center group outline-none focus:outline-none"
+              className="flex gap-2 items-center justify-start group outline-none focus:outline-none"
               variant="outline"
               size="xs"
             >
-              <div className="w-5 h-5 aspect-square rounded-md bg-muted shrink-0 grid place-items-center text-xs font-semibold">
-                {session?.user.currentSpace.name[0]}
+              <div className="w-5 h-5 aspect-square rounded-md bg-muted shrink-0 grid place-items-center text-xs font-semibold overflow-hidden">
+                {activeSpace?.name[0].toUpperCase()}
+                <Skeleton className="w-full h-full" />
               </div>
-              <span>{session?.user.currentSpace.name}</span>
-              <ChevronsUpDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground" />
+              <span className="block text-ellipsis whitespace-nowrap w-12 overflow-hidden text-left">
+                {activeSpace?.name}
+                {status === "loading" && (
+                  <Skeleton className="w-12 h-[20px] rounded-md" />
+                )}
+              </span>
+              <ChevronsUpDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground ml-auto" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
@@ -60,8 +60,8 @@ const SpaceDropdown = async ({ children }: any) => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              {user?.spaces.map((space: any) => {
-                return <SpacesDropdownItem space={space} user={session?.user} />
+              {session?.user.spaces?.map((space: any) => {
+                return <SpacesDropdownItem space={space} />
               })}
             </DropdownMenuGroup>
 
