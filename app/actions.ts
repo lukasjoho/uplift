@@ -114,20 +114,17 @@ export async function createVote(feedbackId: string) {
   return
 }
 
-export async function assignCurrentSpace(user: any, spaceId: any) {
+export async function assignCurrentSpace(spaceSlug: string, userId: string) {
   const updatedUser = await prisma.user.update({
     where: {
-      id: user.id,
+      id: userId,
     },
     data: {
       currentSpace: {
         connect: {
-          id: spaceId,
+          slug: spaceSlug,
         },
       },
-    },
-    include: {
-      currentSpace: true,
     },
   })
   return updatedUser

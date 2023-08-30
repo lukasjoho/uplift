@@ -2,6 +2,7 @@ import React, { FC } from "react"
 
 import Alert from "@/components/shared/Alert"
 import DemoAlert from "@/components/shared/Alert"
+import ReportCurrentSpace from "@/components/shared/ReportCurrentSpace"
 import SpaceHeader from "@/app/components/SpaceHeader"
 
 interface SpaceLayoutProps {
@@ -13,6 +14,7 @@ const SpaceLayout: FC<SpaceLayoutProps> = ({ children }) => {
     <>
       {/* @ts-expect-error */}
       <SpaceHeader />
+      <ReportCurrentSpace />
       <DemoAlert
         title="Heads up!"
         description=" You are in the Uplift demo space. Play around as you like. The data
