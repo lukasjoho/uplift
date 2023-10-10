@@ -1,23 +1,13 @@
-# next-template
+<div align="center" >
+    <h1 align="center">Uplift</h1>
+    <p>Uplift is an experimentation platform for modern product and engineering teams streamlining the management and deployment of your experiments. Accelerate your growth by bringing experiment visibility, data focus and hypothesis-centricity to your team.</p>
+    🌐 <a href="https://uplift-web.vercel.app/">uplift-web.vercel.app/</a>
+    <br/>
+    <br/>
+</div>
 
-A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
+![Alt text](https://res.cloudinary.com/dum2lqmke/image/upload/v1696949164/interface_natdlx.jpg)
 
-## Usage
+![Alt text](https://res.cloudinary.com/dum2lqmke/image/upload/v1696949181/Screenshot_2023-10-10_at_16.07.05_awbkmz.png)
 
-```bash
-npx create-next-app -e https://github.com/shadcn/next-template
-```
-
-## Features
-
-- Radix UI Primitives
-- Tailwind CSS
-- Fonts with `next/font`
-- Icons from [Lucide](https://lucide.dev)
-- Dark mode with `next-themes`
-- Automatic import sorting with `@ianvs/prettier-plugin-sort-imports`
-- Tailwind CSS class sorting, merging and linting.
-
-## License
-
-Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
+![Alt text](https://res.cloudinary.com/dum2lqmke/image/upload/v1696949181/Screenshot_2023-10-10_at_16.11.00_bq8u0n.png)
