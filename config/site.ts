@@ -16,11 +16,6 @@ export const siteConfig = {
       title: "Releases",
       href: "/releases/launched",
     },
-    {
-      type: "site",
-      title: "Blog",
-      href: "/blog",
-    },
   ],
   links: {
     twitter: "https://twitter.com/shadcn",

@@ -16,8 +16,7 @@ import Testimonial from "./Testimonial"
 import VisualIntro from "./VisualIntro"
 import Walkthrough from "./Walkthrough"
 
-export default async function IndexPage() {
-  const session = await getServerSession(authOptions)
+export default function IndexPage() {
   return (
     <div className="space-y-32 md:space-y-48 pt-8 md:pt-16 pb-48">
       <Hero />

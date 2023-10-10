@@ -157,5 +157,22 @@ interface StatusCellProps {
   isEnabled: boolean
 }
 const StatusCell: FC<StatusCellProps> = ({ isEnabled }) => {
-  return <Switch />
+  return (
+    <div className="flex gap-1 items-center">
+      <div
+        className={cn(
+          "aspect-square rounded-full w-2",
+          isEnabled ? "bg-green-500" : "bg-neutral-500"
+        )}
+      />
+      <span
+        className={cn(
+          "text-sm",
+          isEnabled ? "text-green-500" : "text-neutral-500"
+        )}
+      >
+        {isEnabled ? "On" : "Off"}
+      </span>
+    </div>
+  )
 }

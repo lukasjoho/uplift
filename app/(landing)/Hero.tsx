@@ -15,7 +15,7 @@ const Hero = () => {
     <Container>
       <div className="flex flex-col items-center gap-4 md:gap-6 xl:gap-10">
         <div className="flex flex-col items-center gap-2 md:gap-4 xl:gap-8">
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl text-center">
+          <h1 className="text-4xl font-extrabold leading-tight tracking-tighter sm:text-5xl md:text-7xl lg:text-9xl text-center">
             <span className="bg-gradient-to-r from-green-400 via-green-500 to-green-400 bg-clip-text text-transparent">
               Experiment
             </span>
