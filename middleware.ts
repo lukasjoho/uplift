@@ -36,36 +36,3 @@ export async function middleware(req: NextRequest) {
   }
   return response
 }
-
-// export default withAuth(
-//   function middleware(req) {
-//     const response = NextResponse.next()
-//     if (!req.cookies.has("anonymousId")) {
-//       const uniqueId = uuidv4()
-//       response.cookies.set("anonymousId", uniqueId)
-//     }
-//     return response
-//   },
-//   {
-//     callbacks: {
-//       authorized: ({ req, token }: { req: any; token: any }) => {
-//         const spaceSlug = req.nextUrl.pathname.split("/")[2]
-
-//         if (
-//           req.nextUrl.pathname.startsWith("/space") ||
-//           req.nextUrl.pathname.startsWith("/spaces")
-//         ) {
-//           if (token === null) return false
-//           if (
-//             req.nextUrl.pathname.startsWith("/space") &&
-//             spaceSlug &&
-//             spaceSlug !== token.currentSpace.slug
-//           ) {
-//             //redirect ...
-//           }
-//         }
-//         return true
-//       },
-//     },
-//   }
-// )
